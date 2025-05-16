@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -15,13 +15,14 @@ const schema = yup.object().shape({
 });
 
 const Login: React.FC = () => {
+  const [loginType, setLoginType] = useState<'admin' | 'client'>('admin');
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: yupResolver(schema),
     mode: 'onChange'
   });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
-    console.log(data);
+    console.log(data, { loginType });
     // Xử lý đăng nhập ở đây
   };
 
@@ -35,6 +36,29 @@ const Login: React.FC = () => {
           <p className="text-gray-600">
             Vui lòng đăng nhập để tiếp tục
           </p>
+        </div>
+        
+        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+          <button
+            onClick={() => setLoginType('admin')}
+            className={`flex-1 py-2 rounded-md text-center transition-all ${
+              loginType === 'admin' 
+                ? 'bg-white text-blue-600 shadow-sm font-medium' 
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Admin
+          </button>
+          <button
+            onClick={() => setLoginType('client')}
+            className={`flex-1 py-2 rounded-md text-center transition-all ${
+              loginType === 'client' 
+                ? 'bg-white text-blue-600 shadow-sm font-medium' 
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+          >
+            Client
+          </button>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
