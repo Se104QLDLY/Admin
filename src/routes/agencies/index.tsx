@@ -107,12 +107,12 @@ const AgencyPage: React.FC = () => {
           </button>
         </div>
         
-        <h2 className="text-lg font-medium mb-4">Danh sách đại lý</h2>
+        <h2 className="text-2xl font-extrabold text-blue-800 mb-6 drop-shadow">Danh sách đại lý</h2>
         
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-gray-50 border border-gray-200">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
+        <div className="overflow-x-auto rounded-2xl shadow-xl border-2 border-blue-100 bg-white">
+          <table className="min-w-full bg-white border border-blue-200">
+            <thead className="bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700">
+              <tr className="uppercase text-sm">
                 <th className="py-3 px-4 text-left">Mã đại lý</th>
                 <th className="py-3 px-4 text-left">Tên đại lý</th>
                 <th className="py-3 px-4 text-left">Loại đại lý</th>
@@ -125,7 +125,7 @@ const AgencyPage: React.FC = () => {
                 <th className="py-3 px-4 text-left">Hành động</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-blue-100">
               {filteredAgencies.map((agency) => (
                 <tr key={agency.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-gray-900">{agency.code}</td>
@@ -157,4 +157,4 @@ const AgencyPage: React.FC = () => {
   );
 };
 
-export default AgencyPage; 
+export default AgencyPage;

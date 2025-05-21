@@ -50,123 +50,62 @@ const ImportPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-2xl font-bold mb-6">QUẢN LÝ NHẬP HÀNG</h1>
-
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setActiveTab('all')}
-              className={`px-4 py-2 rounded-lg ${
-                activeTab === 'all'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Tất cả
-            </button>
-            <button
-              onClick={() => setActiveTab('pending')}
-              className={`px-4 py-2 rounded-lg ${
-                activeTab === 'pending'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Chờ xử lý
-            </button>
-            <button
-              onClick={() => setActiveTab('completed')}
-              className={`px-4 py-2 rounded-lg ${
-                activeTab === 'completed'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              Đã nhập
-            </button>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg
-                className="h-5 w-5 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Tìm kiếm..."
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+      <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-blue-100">
+        <h1 className="text-3xl font-extrabold text-blue-800 mb-8 drop-shadow uppercase tracking-wide">Quản lý nhập hàng</h1>
+        <div className="flex flex-wrap gap-4 mb-8 items-center">
+          <button
+            onClick={() => setActiveTab('all')}
+            className={`px-5 py-2 rounded-xl font-bold text-lg shadow-lg transition-colors ${activeTab === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-blue-700 hover:bg-blue-200'}`}
+          >
+            Tất cả
+          </button>
+          <button
+            onClick={() => setActiveTab('pending')}
+            className={`px-5 py-2 rounded-xl font-bold text-lg shadow-lg transition-colors ${activeTab === 'pending' ? 'bg-yellow-500 text-white' : 'bg-gray-100 text-yellow-700 hover:bg-yellow-100'}`}
+          >
+            Chờ xử lý
+          </button>
+          <button
+            onClick={() => setActiveTab('completed')}
+            className={`px-5 py-2 rounded-xl font-bold text-lg shadow-lg transition-colors ${activeTab === 'completed' ? 'bg-green-600 text-white' : 'bg-gray-100 text-green-700 hover:bg-green-100'}`}
+          >
+            Đã nhập
+          </button>
+          <input
+            type="text"
+            placeholder="Tìm kiếm..."
+            className="flex-1 min-w-[220px] px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm ml-4"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
-
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Tên sản phẩm
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Số lượng
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Nhà cung cấp
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Ngày nhập
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Trạng thái
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-sm font-medium text-gray-700">
-                  Thao tác
-                </th>
+        <h2 className="text-2xl font-extrabold text-blue-800 mb-6 drop-shadow">Danh sách phiếu nhập</h2>
+        <div className="overflow-x-auto rounded-2xl shadow-xl border-2 border-blue-100 bg-white">
+          <table className="min-w-full bg-white border border-blue-200">
+            <thead className="bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700">
+              <tr className="uppercase text-sm">
+                <th className="px-6 py-3 text-left">Tên sản phẩm</th>
+                <th className="px-6 py-3 text-left">Số lượng</th>
+                <th className="px-6 py-3 text-left">Nhà cung cấp</th>
+                <th className="px-6 py-3 text-left">Ngày nhập</th>
+                <th className="px-6 py-3 text-left">Trạng thái</th>
+                <th className="px-6 py-3 text-left">Thao tác</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-blue-100">
               {filteredItems.map((item) => (
-                <tr key={item.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {item.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {item.quantity}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {item.supplier}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    {new Date(item.date).toLocaleDateString('vi-VN')}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        item.status === 'completed'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}
-                    >
+                <tr key={item.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 font-semibold text-gray-900">{item.name}</td>
+                  <td className="px-6 py-4 text-gray-700">{item.quantity}</td>
+                  <td className="px-6 py-4 text-gray-700">{item.supplier}</td>
+                  <td className="px-6 py-4 text-gray-700">{new Date(item.date).toLocaleDateString('vi-VN')}</td>
+                  <td className="px-6 py-4">
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${item.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
                       {item.status === 'completed' ? 'Đã nhập' : 'Chờ xử lý'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-                    <a href="#" className="hover:underline">
-                      Chi tiết
-                    </a>
+                  <td className="px-6 py-4 text-blue-600 font-bold">
+                    <a href="#" className="hover:underline">Chi tiết</a>
                   </td>
                 </tr>
               ))}
@@ -178,4 +117,4 @@ const ImportPage: React.FC = () => {
   );
 };
 
-export default ImportPage; 
+export default ImportPage;

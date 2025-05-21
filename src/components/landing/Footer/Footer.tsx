@@ -44,22 +44,20 @@ const footerSections: FooterSection[] = [
 
 export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
   return (
-    <footer className={`bg-gray-900 text-white py-12 ${className}`}>
+    <footer className={`bg-gradient-to-r from-blue-900 via-blue-800 to-cyan-800 text-white py-16 px-6 rounded-t-3xl shadow-2xl ${className}`}>
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {/* Logo và mô tả */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex flex-col items-start space-y-3 mb-4">
               <img
                 src="/logo.png"
                 alt="Logo"
-                className="h-20 w-auto"
+                className="h-24 w-auto drop-shadow-xl"
               />
-              <span className="text-lg font-semibold">
-                Quản lý đại lý
-              </span>
+              <span className="text-2xl font-extrabold text-white">Quản lý đại lý</span>
             </Link>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className="text-cyan-100 text-base mt-2 font-medium">
               Hệ thống quản lý đại lý toàn diện giúp doanh nghiệp của bạn phát triển.
             </p>
           </div>
@@ -67,13 +65,13 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
           {/* Các section links */}
           {footerSections.map((section, index) => (
             <div key={index}>
-              <h3 className="text-lg font-semibold mb-4">{section.title}</h3>
+              <h3 className="text-lg font-bold mb-4 text-cyan-200 uppercase tracking-wider">{section.title}</h3>
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
                     <a
                       href={link.href}
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-cyan-100 hover:text-white font-semibold transition-colors"
                     >
                       {link.label}
                     </a>
@@ -85,12 +83,12 @@ export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>© 2024 Hệ thống quản lý đại lý. All rights reserved.</p>
+        <div className="border-t-2 border-cyan-700 mt-12 pt-8 text-center text-cyan-200">
+          <p className="font-medium">© 2024 Hệ thống quản lý đại lý. All rights reserved.</p>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer; 
+export default Footer;

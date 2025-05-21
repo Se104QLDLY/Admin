@@ -40,20 +40,18 @@ export const Team: React.FC<TeamProps> = ({ className = '' }) => {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">
           Đối tác của chúng tôi
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
           {teamMembers.map((member, index) => (
-            <div key={index} className="text-center">
-              <div className="relative mb-4 aspect-square overflow-hidden rounded-lg">
+            <div key={index} className="text-center bg-white rounded-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all p-6 border-2 border-blue-100">
+              <div className="relative mb-4 aspect-square overflow-hidden rounded-xl shadow-lg">
                 <img
                   src={member.image}
                   alt={member.name}
                   className="w-full h-full object-cover"
                 />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">
-                {member.name}
-              </h3>
-              <p className="text-gray-600">{member.role}</p>
+              <h3 className="text-xl font-bold text-blue-800 mb-1">{member.name}</h3>
+              <p className="text-blue-600 font-medium">{member.role}</p>
             </div>
           ))}
         </div>
@@ -62,4 +60,4 @@ export const Team: React.FC<TeamProps> = ({ className = '' }) => {
   );
 };
 
-export default Team; 
+export default Team;

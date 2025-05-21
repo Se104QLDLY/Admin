@@ -69,12 +69,11 @@ const PaymentPage: React.FC = () => {
           </button>
         </div>
         
-        <h2 className="text-lg font-medium mb-4">Danh sách phiếu thu</h2>
-        
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-gray-50 border border-gray-200">
-            <thead>
-              <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
+        <h2 className="text-2xl font-extrabold text-blue-800 mb-6 drop-shadow">Danh sách phiếu thu</h2>
+        <div className="overflow-x-auto rounded-2xl shadow-xl border-2 border-blue-100 bg-white">
+          <table className="min-w-full bg-white border border-blue-200">
+            <thead className="bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700">
+              <tr className="uppercase text-sm">
                 <th className="py-3 px-4 text-left">Mã phiếu thu</th>
                 <th className="py-3 px-4 text-left">Đại lý</th>
                 <th className="py-3 px-4 text-left">Số tiền</th>
@@ -85,7 +84,7 @@ const PaymentPage: React.FC = () => {
                 <th className="py-3 px-4 text-left">Hành động</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-blue-100">
               {filteredPayments.map((payment) => (
                 <tr key={payment.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3 text-gray-900">{payment.code}</td>
@@ -119,4 +118,4 @@ const PaymentPage: React.FC = () => {
   );
 };
 
-export default PaymentPage; 
+export default PaymentPage;

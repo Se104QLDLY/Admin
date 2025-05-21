@@ -81,37 +81,32 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   ];
   
   return (
-    <aside className={`w-64 bg-gray-100 border-r border-gray-200 min-h-screen ${className}`}>
-      <div className="p-4">
-        <Link to="/admin" className="flex items-center space-x-2 mb-8">
-          <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-          <span className="text-lg font-semibold text-gray-800">Trang chủ</span>
+    <aside className={`w-64 bg-gradient-to-b from-blue-50 via-white to-cyan-50 border-r-4 border-blue-200 min-h-screen shadow-xl rounded-tr-3xl rounded-br-3xl ${className}`}>
+      <div className="p-6">
+        <Link to="/admin" className="flex items-center space-x-3 mb-10">
+          <img src="/logo.png" alt="Logo" className="h-10 w-auto drop-shadow-lg" />
+          <span className="text-xl font-extrabold text-blue-800 tracking-wide drop-shadow">Trang chủ</span>
         </Link>
-        
-        <nav className="space-y-1">
+        <nav className="space-y-2">
           {sidebarItems.map((item, index) => {
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={index}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                className={`flex items-center space-x-4 px-5 py-3 rounded-2xl transition-all text-lg font-semibold shadow-sm border-2 ${
                   isActive
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-200'
+                    ? 'bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 border-blue-400 scale-105 shadow-lg'
+                    : 'text-gray-700 border-transparent hover:bg-blue-50 hover:text-blue-700 hover:scale-105 hover:shadow-md'
                 }`}
               >
-                <div className={`${isActive ? 'text-blue-700' : 'text-gray-500'}`}>
-                  {item.icon}
-                </div>
+                <div className={`text-2xl ${isActive ? 'text-blue-700' : 'text-gray-400'}`}>{item.icon}</div>
                 <span>{item.label}</span>
                 {isActive && (
                   <div className="ml-auto">
-                    {item.path === '/import' && (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    )}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
                   </div>
                 )}
               </Link>
@@ -123,4 +118,4 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

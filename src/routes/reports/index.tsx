@@ -74,7 +74,7 @@ const ReportsPage: React.FC = () => {
         {/* Reports List */}
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-medium">Danh sách báo cáo</h2>
+            <h2 className="text-2xl font-extrabold text-blue-800 mb-6 drop-shadow">Báo cáo</h2>
             <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -83,10 +83,10 @@ const ReportsPage: React.FC = () => {
             </button>
           </div>
           
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-gray-50 border border-gray-200">
-              <thead>
-                <tr className="bg-gray-100 text-gray-600 uppercase text-sm">
+          <div className="overflow-x-auto rounded-2xl shadow-xl border-2 border-blue-100 bg-white">
+            <table className="min-w-full bg-white border border-blue-200">
+              <thead className="bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700">
+                <tr className="uppercase text-sm">
                   <th className="py-3 px-4 text-left">Mã báo cáo</th>
                   <th className="py-3 px-4 text-left">Loại báo cáo</th>
                   <th className="py-3 px-4 text-left">Ngày báo cáo</th>
@@ -96,7 +96,7 @@ const ReportsPage: React.FC = () => {
                   <th className="py-3 px-4 text-left">Thao tác</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-blue-100">
                 {reports.map((report) => (
                   <tr key={report.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 text-gray-900">{report.code}</td>
@@ -132,4 +132,4 @@ const ReportsPage: React.FC = () => {
   );
 };
 
-export default ReportsPage; 
+export default ReportsPage;

@@ -27,15 +27,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">
-            Đăng nhập
-          </h2>
-          <p className="text-gray-600">
-            Vui lòng đăng nhập để tiếp tục
-          </p>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-white to-cyan-100">
+      <div className="w-full max-w-md p-8 bg-white rounded-3xl shadow-2xl border-2 border-blue-100">
+        <div className="flex flex-col items-center mb-8">
+          <img src="/logo.png" alt="Logo" className="h-16 w-16 mb-2 drop-shadow-lg" />
+          <h2 className="text-3xl font-extrabold text-blue-800 mb-2 drop-shadow">Đăng nhập</h2>
+          <p className="text-blue-700 font-medium">Chào mừng bạn quay lại hệ thống!</p>
         </div>
         
         <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
@@ -61,60 +58,44 @@ const Login: React.FC = () => {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
+            <label className="block text-blue-700 font-semibold mb-1">Tên đăng nhập</label>
             <input
-              type="text"
               {...register('username')}
-              placeholder="Tên đăng nhập"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-lg bg-blue-50 placeholder:text-blue-300"
+              placeholder="Nhập tên đăng nhập"
             />
             {errors.username && (
-              <p className="mt-1 text-sm text-red-500">{errors.username.message}</p>
+              <span className="text-red-500 text-sm mt-1">{errors.username.message}</span>
             )}
           </div>
-
           <div>
+            <label className="block text-blue-700 font-semibold mb-1">Mật khẩu</label>
             <input
               type="password"
               {...register('password')}
-              placeholder="Mật khẩu"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+              className="w-full px-4 py-3 rounded-xl border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none transition-all text-lg bg-blue-50 placeholder:text-blue-300"
+              placeholder="Nhập mật khẩu"
             />
             {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+              <span className="text-red-500 text-sm mt-1">{errors.password.message}</span>
             )}
           </div>
-
-          <div className="flex justify-end">
-            <Link 
-              to="/forgot-password" 
-              className="text-blue-600 hover:text-blue-700 transition-colors duration-200"
-            >
-              Quên mật khẩu?
-            </Link>
-          </div>
-
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 font-semibold"
+            className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-blue-700"
           >
             Đăng nhập
           </button>
-
-          <div className="text-center">
-            <Link 
-              to="/register" 
-              className="text-blue-600 hover:text-blue-700 transition-colors duration-200 inline-flex items-center"
-            >
-              <span className="mr-2">→</span>
-              Chưa có tài khoản? Đăng ký ngay
-            </Link>
-          </div>
         </form>
+        <div className="flex justify-between mt-6 text-sm">
+          <Link to="/register" className="text-blue-600 hover:underline font-semibold">Chưa có tài khoản?</Link>
+          <Link to="/forgot" className="text-blue-400 hover:underline">Quên mật khẩu?</Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Login; 
+export default Login;

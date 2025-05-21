@@ -7,16 +7,16 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
   return (
-    <header className={`w-full bg-white py-4 px-6 shadow-sm ${className}`}>
+    <header className={`w-full bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-500 py-4 px-6 shadow-md ${className}`}>
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo và tên hệ thống */}
-        <Link to="/" className="flex items-center space-x-2">
+        <Link to="/" className="flex items-center space-x-3">
           <img 
             src="/logo.png" 
             alt="Logo Hệ thống quản lý đại lý" 
-            className="h-12 w-auto"
+            className="h-14 w-auto drop-shadow-xl"
           />
-          <span className="text-xl font-semibold text-gray-800">
+          <span className="text-2xl font-extrabold text-white tracking-wide drop-shadow-lg">
             Hệ thống quản lý đại lý
           </span>
         </Link>
@@ -25,13 +25,13 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
         <div className="flex items-center space-x-4">
           <Link
             to="/login"
-            className="px-4 py-2 text-blue-600 hover:text-blue-700 transition-colors"
+            className="px-4 py-2 text-white font-semibold hover:text-cyan-200 transition-colors rounded-lg hover:bg-blue-800/40"
           >
             Đăng nhập
           </Link>
           <Link
             to="/register"
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-4 py-2 bg-white text-blue-700 font-bold rounded-lg shadow hover:bg-cyan-100 hover:text-blue-900 transition-colors border-2 border-white hover:border-cyan-400"
           >
             Đăng ký
           </Link>
@@ -41,4 +41,4 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
   );
 };
 
-export default Header; 
+export default Header;

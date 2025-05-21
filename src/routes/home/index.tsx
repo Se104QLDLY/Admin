@@ -11,14 +11,22 @@ const Home: React.FC = () => {
     <div className="min-h-screen bg-white">
       <Header />
       <main>
-        <Hero />
-        <Metrics />
-        <Features />
-        <Partners />
+        <div className="hover:scale-[1.01] transition-transform">
+          <Hero />
+        </div>
+        <div className="hover:scale-[1.01] transition-transform">
+          <Metrics />
+        </div>
+        <div className="hover:scale-[1.01] transition-transform">
+          <Features />
+        </div>
+        <div className="hover:scale-[1.01] transition-transform">
+          <Partners />
+        </div>
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Home; 
+export default Home;
