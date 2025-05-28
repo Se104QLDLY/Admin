@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 
 interface ExportItem {
@@ -17,6 +17,7 @@ const ExportPage: React.FC = () => {
   const [selectedAgency, setSelectedAgency] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
+  const navigate = useNavigate();
 
   const exportItems: ExportItem[] = [
     {
@@ -61,9 +62,12 @@ const ExportPage: React.FC = () => {
       <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-blue-100">
         <div className="flex flex-wrap gap-4 mb-8 justify-between items-center">
           <h1 className="text-3xl font-extrabold text-blue-800 drop-shadow uppercase tracking-wide">Quản lý xuất hàng</h1>
-          <Link to="/export/create" className="px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-bold text-lg shadow-lg">
+          <button
+            onClick={() => navigate('/export/add')}
+            className="px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-bold text-lg shadow-lg"
+          >
             Tạo phiếu xuất
-          </Link>
+          </button>
         </div>
         <div className="flex flex-wrap gap-4 mb-8 items-center">
           <input

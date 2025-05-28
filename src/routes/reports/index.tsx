@@ -50,33 +50,33 @@ const ReportsPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-2xl font-bold uppercase mb-8">Lập báo cáo</h1>
+      <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-blue-100">
+        <h1 className="text-3xl font-extrabold text-blue-800 mb-8 drop-shadow uppercase tracking-wide">Lập báo cáo</h1>
         
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white border rounded-lg p-6 shadow-sm">
-            <h2 className="text-base font-medium text-gray-600 mb-2">Tổng doanh số</h2>
-            <p className="text-2xl font-bold text-blue-600">{totalSales}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="bg-gradient-to-br from-blue-50 via-white to-cyan-50 border-2 border-blue-200 rounded-2xl shadow-xl p-6 flex flex-col items-center">
+            <h2 className="text-base font-semibold text-blue-700 mb-2">Tổng doanh số</h2>
+            <p className="text-2xl font-extrabold text-blue-800">{totalSales}</p>
           </div>
           
-          <div className="bg-white border rounded-lg p-6 shadow-sm">
-            <h2 className="text-base font-medium text-gray-600 mb-2">Tổng nợ</h2>
-            <p className="text-2xl font-bold text-red-600">{totalDebt}</p>
+          <div className="bg-gradient-to-br from-red-50 via-white to-pink-50 border-2 border-red-200 rounded-2xl shadow-xl p-6 flex flex-col items-center">
+            <h2 className="text-base font-semibold text-red-700 mb-2">Tổng nợ</h2>
+            <p className="text-2xl font-extrabold text-red-800">{totalDebt}</p>
           </div>
           
-          <div className="bg-white border rounded-lg p-6 shadow-sm">
-            <h2 className="text-base font-medium text-gray-600 mb-2">Số lượng báo cáo</h2>
-            <p className="text-2xl font-bold text-gray-800">{reportCount}</p>
+          <div className="bg-gradient-to-br from-green-50 via-white to-lime-50 border-2 border-green-200 rounded-2xl shadow-xl p-6 flex flex-col items-center">
+            <h2 className="text-base font-semibold text-green-700 mb-2">Số lượng báo cáo</h2>
+            <p className="text-2xl font-extrabold text-green-800">{reportCount}</p>
           </div>
         </div>
         
         {/* Reports List */}
         <div>
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-extrabold text-blue-800 mb-6 drop-shadow">Báo cáo</h2>
-            <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <div className="flex flex-wrap gap-4 mb-8 justify-between items-center">
+            <h2 className="text-2xl font-extrabold text-blue-800 drop-shadow">Báo cáo</h2>
+            <button className="flex items-center px-5 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-bold text-lg shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
               </svg>
               Lập báo cáo
@@ -99,24 +99,22 @@ const ReportsPage: React.FC = () => {
               <tbody className="divide-y divide-blue-100">
                 {reports.map((report) => (
                   <tr key={report.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-gray-900">{report.code}</td>
+                    <td className="px-4 py-3 font-semibold text-gray-900">{report.code}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold shadow-lg ${
                         report.type === 'Doanh số' 
                           ? 'bg-green-100 text-green-800' 
                           : 'bg-red-100 text-red-800'
-                      }`}>
-                        {report.type}
-                      </span>
+                      }`}>{report.type}</span>
                     </td>
                     <td className="px-4 py-3 text-gray-800">{report.date}</td>
                     <td className="px-4 py-3 text-gray-800">{report.data}</td>
                     <td className="px-4 py-3 text-gray-800">{report.creator}</td>
                     <td className="px-4 py-3 text-gray-800">{report.created_at}</td>
                     <td className="px-4 py-3">
-                      <Link 
-                        to={`/reports/${report.id}`} 
-                        className="text-blue-600 hover:text-blue-800 font-medium"
+                      <Link
+                        to={`/reports/${report.id}`}
+                        className="px-3 py-1 text-xs font-bold text-blue-600 hover:text-blue-800 bg-blue-50 rounded-lg"
                       >
                         Xem chi tiết
                       </Link>
