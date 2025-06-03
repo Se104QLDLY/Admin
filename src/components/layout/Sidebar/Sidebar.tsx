@@ -21,25 +21,37 @@ const sidebarStyle = {
 export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   const location = useLocation();
   
-  // Load từ localStorage đơn giản
+  // State để kiểm soát sidebar collapse
   const [collapsed, setCollapsed] = useState(() => {
-    try {
-      const saved = localStorage.getItem('sidebarCollapsed');
-      return saved ? JSON.parse(saved) : false;
-    } catch (e) {
-      return false;
+    // Auto-collapse trên mobile
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
     }
+    return false;
   });
-  
-  // Lưu vào localStorage sau khi thay đổi
+
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768;
+    }
+    return false;
+  });
+
+  // Theo dõi kích thước màn hình
   useEffect(() => {
-    localStorage.setItem('sidebarCollapsed', JSON.stringify(collapsed));
-  }, [collapsed]);
-  
-  // Toggle đơn giản
-  const toggleSidebar = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) {
+        setCollapsed(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
     setCollapsed(!collapsed);
   };
   
@@ -88,10 +100,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
     },
     {
       icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+              <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
             </svg>,
       label: 'Quản lý quy định',
-      path: '/settings',
+      path: '/regulations',
     },
     {
       icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -110,60 +122,101 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   ];
   
   return (
-    <aside 
-      className={`${collapsed ? 'w-20' : 'w-64'} bg-gray-100 border-r border-gray-200 min-h-screen ${className}`}
-      style={sidebarStyle}
-    >
-      <div className="p-4 relative">
-        {/* Logo & Toggle Button */}
-        <div className="flex items-center justify-between mb-8">
-          {!collapsed ? (
-            <Link to="/admin" className="flex items-center">
-              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-            </Link>
-          ) : (
-            <Link to="/admin" className="mx-auto">
-              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-            </Link>
-          )}
-          
-          {/* Toggle Button - Đơn giản hóa nút toggle */}
-          <button 
-            onClick={toggleSidebar}
-            className="absolute -right-3 top-6 bg-white rounded-full p-2 border border-gray-200 shadow-sm hover:shadow-md z-10"
-            aria-label={collapsed ? "Mở rộng sidebar" : "Thu gọn sidebar"}
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-            </svg>
-          </button>
-        </div>
-        
-        <nav className="space-y-1">
-          {sidebarItems.map((item, index) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <Link
-                key={index}
-                to={item.path}
-                className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} px-4 py-3 rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`}
-                title={collapsed ? item.label : ''}
-              >
-                <div className={`${isActive ? 'text-blue-700' : 'text-gray-500'} flex-shrink-0`}>
-                  {item.icon}
-                </div>
-                {!collapsed && <span className="whitespace-nowrap">{item.label}</span>}
+    <>
+      {/* Mobile backdrop */}
+      {isMobile && !collapsed && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+      
+      <aside 
+        className={`
+          ${collapsed ? (isMobile ? '-translate-x-full' : 'w-16') : 'w-64'} 
+          ${isMobile ? 'fixed' : 'relative'}
+          ${isMobile ? 'z-50' : 'z-10'}
+          bg-gradient-to-b from-blue-50 via-white to-cyan-50 
+          border-r-4 border-blue-200 min-h-screen shadow-xl 
+          ${!isMobile ? 'rounded-tr-3xl rounded-br-3xl' : ''}
+          transition-all duration-300 ease-in-out
+          ${className}
+        `}
+      >
+        <div className="p-4 relative">
+          {/* Header với toggle button */}
+          <div className="flex items-center justify-between mb-6">
+            {!collapsed ? (
+              <Link to="/admin" className="flex items-center space-x-3">
+                <img src="/logo.png" alt="Logo" className="h-8 w-auto drop-shadow-lg" />
+                <span className="text-lg font-extrabold text-blue-800 tracking-wide drop-shadow">Admin</span>
               </Link>
-            );
-          })}
-        </nav>
-      </div>
-    </aside>
+            ) : (
+              <Link to="/admin" className="mx-auto">
+                <img src="/logo.png" alt="Logo" className="h-8 w-auto drop-shadow-lg" />
+              </Link>
+            )}
+            
+            {/* Toggle button */}
+            <button
+              onClick={toggleSidebar}
+              className={`
+                ${collapsed && !isMobile ? 'absolute -right-3 top-2' : ''}
+                p-2 rounded-lg bg-blue-100 hover:bg-blue-200 
+                text-blue-600 transition-colors z-10
+                ${isMobile ? 'md:hidden' : ''}
+              `}
+              aria-label={collapsed ? "Mở sidebar" : "Đóng sidebar"}
+            >
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                className={`h-4 w-4 transition-transform ${collapsed ? 'rotate-180' : ''}`} 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+            </button>
+          </div>
+          
+          <nav className="space-y-1">
+            {sidebarItems.map((item, index) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={index}
+                  to={item.path}
+                  className={`
+                    flex items-center 
+                    ${collapsed ? 'justify-center px-2' : 'space-x-3 px-4'} 
+                    py-3 rounded-xl transition-all text-sm font-semibold 
+                    ${isActive
+                      ? 'bg-gradient-to-r from-blue-100 to-cyan-100 text-blue-700 shadow-md scale-105'
+                      : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700 hover:scale-105'
+                    }
+                  `}
+                  title={collapsed ? item.label : ''}
+                  onClick={() => isMobile && setCollapsed(true)}
+                >
+                  <div className={`${isActive ? 'text-blue-700' : 'text-gray-400'} flex-shrink-0`}>
+                    {item.icon}
+                  </div>
+                  {!collapsed && (
+                    <span className="whitespace-nowrap overflow-hidden">{item.label}</span>
+                  )}
+                  {!collapsed && isActive && (
+                    <div className="ml-auto">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                    </div>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
+    </>
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

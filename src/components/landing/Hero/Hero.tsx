@@ -7,30 +7,27 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ className = '' }) => {
   return (
-    <section className={`py-20 bg-gray-50 ${className}`}>
+    <section className={`py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 ${className}`}>
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center">
           {/* Content bên trái */}
           <div className="lg:w-1/2 lg:pr-12">
-            <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            <h1 className="text-5xl lg:text-6xl font-extrabold text-blue-800 mb-6 drop-shadow-lg">
               Giải pháp quản lý đại lý toàn diện
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              Hệ thống giúp tối ưu hóa quy trình quản lý, tăng hiệu quả vận hành và thúc 
-              đẩy tăng trưởng doanh thu cho chuỗi đại lý của bạn.
+            <p className="text-xl text-blue-700 mb-8 font-medium">
+              Hệ thống giúp tối ưu hóa quy trình quản lý, tăng hiệu quả vận hành và thúc đẩy tăng trưởng doanh thu cho chuỗi đại lý của bạn.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 to="/register"
-                className="inline-block px-8 py-3 bg-blue-600 text-white rounded-lg 
-                         hover:bg-blue-700 transition-colors text-center"
+                className="inline-block px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-center font-semibold text-lg border-2 border-transparent hover:border-blue-700"
               >
                 Dùng thử miễn phí
               </Link>
               <Link
                 to="/about"
-                className="inline-block px-8 py-3 border border-blue-600 text-blue-600 
-                         rounded-lg hover:bg-blue-50 transition-colors text-center"
+                className="inline-block px-8 py-3 border-2 border-blue-600 text-blue-700 rounded-xl hover:bg-blue-50 transition-all text-center font-semibold text-lg"
               >
                 Tìm hiểu thêm
               </Link>
@@ -38,11 +35,11 @@ export const Hero: React.FC<HeroProps> = ({ className = '' }) => {
           </div>
 
           {/* Hình ảnh bên phải */}
-          <div className="lg:w-1/2 mt-12 lg:mt-0">
+          <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">
             <img
               src="/daden.png"
               alt="Quản lý đại lý"
-              className="rounded-lg shadow-xl w-full"
+              className="w-full max-w-md rounded-3xl shadow-2xl border-4 border-blue-100 hover:scale-105 transition-transform duration-300"
             />
           </div>
         </div>
@@ -51,4 +48,4 @@ export const Hero: React.FC<HeroProps> = ({ className = '' }) => {
   );
 };
 
-export default Hero; 
+export default Hero;
