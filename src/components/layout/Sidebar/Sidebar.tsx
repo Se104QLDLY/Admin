@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 interface SidebarProps {
@@ -11,8 +11,37 @@ interface SidebarItem {
   path: string;
 }
 
+// Tạo style riêng cho sidebar
+const sidebarStyle = {
+  transition: 'width 250ms ease-out',
+  willChange: 'width',
+  overflowX: 'hidden' as const
+};
+
 export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   const location = useLocation();
+  
+  // Load từ localStorage đơn giản
+  const [collapsed, setCollapsed] = useState(() => {
+    try {
+      const saved = localStorage.getItem('sidebarCollapsed');
+      return saved ? JSON.parse(saved) : false;
+    } catch (e) {
+      return false;
+    }
+  });
+  
+  // Lưu vào localStorage sau khi thay đổi
+  useEffect(() => {
+    localStorage.setItem('sidebarCollapsed', JSON.stringify(collapsed));
+  }, [collapsed]);
+  
+  // Toggle đơn giản
+  const toggleSidebar = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setCollapsed(!collapsed);
+  };
   
   const sidebarItems: SidebarItem[] = [
     {
@@ -81,12 +110,34 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   ];
   
   return (
-    <aside className={`w-64 bg-gray-100 border-r border-gray-200 min-h-screen ${className}`}>
-      <div className="p-4">
-        <Link to="/admin" className="flex items-center space-x-2 mb-8">
-          <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-          <span className="text-lg font-semibold text-gray-800">Trang chủ</span>
-        </Link>
+    <aside 
+      className={`${collapsed ? 'w-20' : 'w-64'} bg-gray-100 border-r border-gray-200 min-h-screen ${className}`}
+      style={sidebarStyle}
+    >
+      <div className="p-4 relative">
+        {/* Logo & Toggle Button */}
+        <div className="flex items-center justify-between mb-8">
+          {!collapsed ? (
+            <Link to="/admin" className="flex items-center">
+              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+            </Link>
+          ) : (
+            <Link to="/admin" className="mx-auto">
+              <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
+            </Link>
+          )}
+          
+          {/* Toggle Button - Đơn giản hóa nút toggle */}
+          <button 
+            onClick={toggleSidebar}
+            className="absolute -right-3 top-6 bg-white rounded-full p-2 border border-gray-200 shadow-sm hover:shadow-md z-10"
+            aria-label={collapsed ? "Mở rộng sidebar" : "Thu gọn sidebar"}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 text-gray-500 transition-transform duration-200 ${collapsed ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+            </svg>
+          </button>
+        </div>
         
         <nav className="space-y-1">
           {sidebarItems.map((item, index) => {
@@ -95,25 +146,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
               <Link
                 key={index}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} px-4 py-3 rounded-lg transition-colors ${
                   isActive
                     ? 'bg-blue-100 text-blue-700'
                     : 'text-gray-700 hover:bg-gray-200'
                 }`}
+                title={collapsed ? item.label : ''}
               >
-                <div className={`${isActive ? 'text-blue-700' : 'text-gray-500'}`}>
+                <div className={`${isActive ? 'text-blue-700' : 'text-gray-500'} flex-shrink-0`}>
                   {item.icon}
                 </div>
-                <span>{item.label}</span>
-                {isActive && (
-                  <div className="ml-auto">
-                    {item.path === '/import' && (
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                      </svg>
-                    )}
-                  </div>
-                )}
+                {!collapsed && <span className="whitespace-nowrap">{item.label}</span>}
               </Link>
             );
           })}

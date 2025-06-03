@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
+import { useTableFilters } from '../../hooks/useTableFilters';
 
 interface ExportItem {
   code: string;
@@ -12,49 +13,45 @@ interface ExportItem {
   updatedDate: string;
 }
 
+const exportItems: ExportItem[] = [
+  {
+    code: 'PX001',
+    agency: 'Đại lý A',
+    exportDate: '2024-01-15',
+    totalAmount: 18500000,
+    creator: 'Nguyễn Văn A',
+    createdDate: '2024-01-15',
+    updatedDate: '2024-01-15',
+  },
+  {
+    code: 'PX002',
+    agency: 'Đại lý B',
+    exportDate: '2024-01-14',
+    totalAmount: 25700000,
+    creator: 'Trần Thị B',
+    createdDate: '2024-01-14',
+    updatedDate: '2024-01-14',
+  },
+];
+
 const ExportPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedAgency, setSelectedAgency] = useState<string>('all');
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
+  const {
+    searchTerm,
+    setSearchTerm,
+    startDate,
+    setStartDate,
+    endDate,
+    setEndDate,
+    selectedFilter: selectedAgency,
+    setSelectedFilter: setSelectedAgency,
+    filteredData
+  } = useTableFilters<ExportItem>(
+    exportItems,
+    ['code', 'agency', 'creator'],
+    { useDate: true, dateField: 'exportDate' }
+  );
 
-  const exportItems: ExportItem[] = [
-    {
-      code: 'PX001',
-      agency: 'Đại lý A',
-      exportDate: '2024-01-15',
-      totalAmount: 18500000,
-      creator: 'Nguyễn Văn A',
-      createdDate: '2024-01-15',
-      updatedDate: '2024-01-15',
-    },
-    {
-      code: 'PX002',
-      agency: 'Đại lý B',
-      exportDate: '2024-01-14',
-      totalAmount: 25700000,
-      creator: 'Trần Thị B',
-      createdDate: '2024-01-14',
-      updatedDate: '2024-01-14',
-    },
-  ];
-
-  // Filter based on search term, agency selection, and date range
-  const filteredItems = exportItems.filter((item) => {
-    if (searchTerm && !item.code.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return false;
-    }
-    if (selectedAgency !== 'all' && item.agency !== selectedAgency) {
-      return false;
-    }
-    if (startDate && new Date(item.exportDate) < new Date(startDate)) {
-      return false;
-    }
-    if (endDate && new Date(item.exportDate) > new Date(endDate)) {
-      return false;
-    }
-    return true;
-  });
+  const filteredItems = filteredData();
 
   return (
     <DashboardLayout>

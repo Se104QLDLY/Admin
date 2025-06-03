@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
+import { useTabNavigation } from '../../hooks/useTabNavigation';
 
 interface ProductItem {
   id: string;
@@ -11,9 +12,11 @@ interface ProductItem {
   total: number;
 }
 
+type ExportTab = 'info' | 'products' | 'finance' | 'delivery' | 'history';
+
 const ExportDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [activeTab, setActiveTab] = useState<'info' | 'products' | 'finance' | 'delivery' | 'history'>('info');
+  const { activeTab, changeTab, isActive } = useTabNavigation<ExportTab>('info');
   
   // Mock data cho phiếu xuất
   const exportData = {
@@ -130,9 +133,9 @@ const ExportDetailPage: React.FC = () => {
         <div className="border-b border-gray-200 mb-6">
           <nav className="flex space-x-8">
             <button
-              onClick={() => setActiveTab('info')}
+              onClick={() => changeTab('info')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'info'
+                isActive('info')
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
@@ -140,9 +143,9 @@ const ExportDetailPage: React.FC = () => {
               Thông tin chung
             </button>
             <button
-              onClick={() => setActiveTab('products')}
+              onClick={() => changeTab('products')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'products'
+                isActive('products')
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
@@ -150,9 +153,9 @@ const ExportDetailPage: React.FC = () => {
               Sản phẩm
             </button>
             <button
-              onClick={() => setActiveTab('finance')}
+              onClick={() => changeTab('finance')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'finance'
+                isActive('finance')
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
@@ -160,9 +163,9 @@ const ExportDetailPage: React.FC = () => {
               Tài chính
             </button>
             <button
-              onClick={() => setActiveTab('delivery')}
+              onClick={() => changeTab('delivery')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'delivery'
+                isActive('delivery')
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
@@ -170,9 +173,9 @@ const ExportDetailPage: React.FC = () => {
               Vận chuyển
             </button>
             <button
-              onClick={() => setActiveTab('history')}
+              onClick={() => changeTab('history')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
-                activeTab === 'history'
+                isActive('history')
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
               }`}
