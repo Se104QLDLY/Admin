@@ -11,9 +11,9 @@ interface User {
 
 // Thông tin user mẫu - sẽ được thay thế bằng dữ liệu thực từ API/context
 const mockUser: User = {
-  username: 'admin',
+  username: 'staff',
   role: 'admin',
-  avatar: 'A'  // Chữ cái đầu của username
+  avatar: 'S'  // Chữ cái đầu của username
 };
 
 interface UseUserAccountReturn {

@@ -30,7 +30,7 @@ const UserAccount: React.FC = () => {
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-700">{user.username}</p>
-                <p className="text-xs text-gray-500">{user.role === 'admin' ? 'Quản trị viên' : 'Khách hàng'}</p>
+                <p className="text-xs text-gray-500">{user.role === 'admin' ? 'Nhân viên' : 'Khách hàng'}</p>
               </div>
             </div>
           </div>
@@ -62,7 +62,7 @@ const MobileHeader: React.FC<{ onToggleSidebar: () => void }> = ({ onToggleSideb
       
       <div className="flex items-center space-x-3">
         <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-        <span className="text-lg font-bold text-blue-800">Admin</span>
+        <span className="text-lg font-bold text-blue-800">Staff</span>
       </div>
       
       <UserAccount />
