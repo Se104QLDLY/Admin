@@ -16,11 +16,16 @@ import EditExportPage from './export/edit';
 import SearchPage from './search';
 import ReportsPage from './reports';
 import AddReportPage from './reports/add';
+import ReportView from './reports/view';
+import ReportEdit from './reports/edit';
 import PaymentPage from './payment';
 import PaymentDetailPage from './payment/detail';
 import AddPaymentReceipt from './payment/add';
+import PaymentEdit from './payment/edit';
 import AccountPage from './account';
 import AddAccountPage from './account/add';
+import AccountView from './account/view';
+import AccountEdit from './account/edit';
 import AgencyPage from './agencies';
 import AddAgencyPage from './agencies/add';
 import ViewAgencyPage from './agencies/view';
@@ -56,10 +61,15 @@ const AppRoutes = () => {
       <Route path="/payment" element={<PaymentPage />} />
       <Route path="/payment/detail/:id" element={<PaymentDetailPage />} />
       <Route path="/payment/add" element={<AddPaymentReceipt />} />
+      <Route path="/payment/edit/:id" element={<PaymentEdit />} />
       <Route path="/reports" element={<ReportsPage />} />
       <Route path="/reports/add" element={<AddReportPage />} />
+      <Route path="/reports/view/:id" element={<ReportView />} />
+      <Route path="/reports/edit/:id" element={<ReportEdit />} />
       <Route path="/account" element={<AccountPage />} />
       <Route path="/account/add" element={<AddAccountPage />} />
+      <Route path="/account/view/:id" element={<AccountView />} />
+      <Route path="/account/edit/:id" element={<AccountEdit />} />
       <Route path="/agencies" element={<AgencyPage />} />
       <Route path="/agencies/add" element={<AddAgencyPage />} />
       <Route path="/agencies/view/:id" element={<ViewAgencyPage />} />
