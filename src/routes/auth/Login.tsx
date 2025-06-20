@@ -21,34 +21,46 @@ const Login: React.FC = () => {
     <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 transition-all duration-300 hover:shadow-xl">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+          <img src="/logo.png" alt="Home Icon" className="mx-auto mb-3 h-12 w-12 drop-shadow" />
+          <h2 className="text-4xl font-extrabold bg-gradient-to-r from-blue-700 via-cyan-500 to-blue-400 bg-clip-text text-transparent drop-shadow mb-2 flex items-center justify-center gap-2">
+            {/* <span className='text-3xl'>🔒</span> */}
             Đăng nhập
           </h2>
-          <p className="text-gray-600">
-            Vui lòng đăng nhập để tiếp tục
+          <div className="flex justify-center">
+            <span className="block w-16 h-1 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full mb-3"></span>
+          </div>
+          <p className="text-gray-500 text-base font-medium tracking-wide">
+            Chào mừng bạn quay lại hệ thống!
           </p>
         </div>
         
-        <div className="flex bg-gray-100 p-1 rounded-lg mb-6">
+        <div className="flex mb-6">
           <button
             onClick={() => setLoginType('admin')}
-            className={`flex-1 py-2 rounded-md text-center transition-all ${
-              loginType === 'admin' 
-                ? 'bg-white text-blue-600 shadow-sm font-medium' 
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
+            type="button"
+            className={`flex-1 py-2 text-center text-base font-semibold transition-all border border-r-0 first:rounded-l-full last:rounded-r-full focus:z-10
+              ${loginType === 'admin' ? 'bg-white text-blue-700 shadow-md border-blue-500' : 'bg-blue-50 text-gray-500 hover:bg-blue-100 border-blue-200'}`}
+            style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           >
-            Admin
+            {/* <span className="mr-1">👑</span> */}Admin
           </button>
           <button
-            onClick={() => setLoginType('client')}
-            className={`flex-1 py-2 rounded-md text-center transition-all ${
-              loginType === 'client' 
-                ? 'bg-white text-blue-600 shadow-sm font-medium' 
-                : 'text-gray-500 hover:text-gray-700'
-            }`}
+            onClick={() => setLoginType('staff')}
+            type="button"
+            className={`flex-1 py-2 text-center text-base font-semibold transition-all border border-r-0 border-l-0 focus:z-10
+              ${loginType === 'staff' ? 'bg-white text-blue-700 shadow-md border-blue-500' : 'bg-blue-50 text-gray-500 hover:bg-blue-100 border-blue-200'}`}
+            style={{ borderRadius: 0 }}
           >
-            Client
+            {/* <span className="mr-1">🧑‍💼</span> */}Staff
+          </button>
+          <button
+            onClick={() => setLoginType('agency')}
+            type="button"
+            className={`flex-1 py-2 text-center text-base font-semibold transition-all border last:rounded-r-full focus:z-10
+              ${loginType === 'agency' ? 'bg-white text-blue-700 shadow-md border-blue-500' : 'bg-blue-50 text-gray-500 hover:bg-blue-100 border-blue-200'}`}
+            style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+          >
+            {/* <span className="mr-1">🏢</span> */}Agency
           </button>
         </div>
 

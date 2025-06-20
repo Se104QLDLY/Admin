@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 });
 
 export const useLoginForm = () => {
-  const [loginType, setLoginType] = useState<'admin' | 'client'>('admin');
+  const [loginType, setLoginType] = useState<'admin' | 'staff' | 'agency'>('admin');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [userName, setUserName] = useState('');

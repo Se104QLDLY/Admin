@@ -7,7 +7,7 @@ interface Account {
   username: string;
   fullName: string;
   email: string;
-  role: 'Admin' | 'Nhân viên' | 'Quản lý';
+  role: 'Admin' | 'Staff' | 'Agency';
   status: 'Hoạt động' | 'Tạm khóa' | 'Ngừng hoạt động';
   createdDate: string;
   updatedDate: string;
@@ -35,10 +35,10 @@ const AccountPage: React.FC = () => {
     },
     {
       id: '2',
-      username: 'nhanvien01',
+      username: 'staff01',
       fullName: 'Nguyễn Văn A',
       email: 'nvana@company.com',
-      role: 'Nhân viên',
+      role: 'Staff',
       status: 'Hoạt động',
       createdDate: '2024-01-05',
       updatedDate: '2024-01-18',
@@ -46,10 +46,10 @@ const AccountPage: React.FC = () => {
     },
     {
       id: '3',
-      username: 'quanly01',
+      username: 'agency01',
       fullName: 'Trần Thị B',
       email: 'qlb@company.com',
-      role: 'Quản lý',
+      role: 'Agency',
       status: 'Tạm khóa',
       createdDate: '2024-01-10',
       updatedDate: '2024-01-15'
@@ -102,8 +102,8 @@ const AccountPage: React.FC = () => {
   const getRoleColor = (role: string) => {
     switch (role) {
       case 'Admin': return 'bg-red-100 text-red-800';
-      case 'Quản lý': return 'bg-blue-100 text-blue-800';
-      case 'Nhân viên': return 'bg-green-100 text-green-800';
+      case 'Staff': return 'bg-green-100 text-green-800';
+      case 'Agency': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -140,8 +140,8 @@ const AccountPage: React.FC = () => {
           >
             <option value="all">Tất cả vai trò</option>
             <option value="Admin">Admin</option>
-            <option value="Quản lý">Quản lý</option>
-            <option value="Nhân viên">Nhân viên</option>
+            <option value="Staff">Staff</option>
+            <option value="Agency">Agency</option>
           </select>
           <select
             value={selectedStatus}
@@ -199,7 +199,7 @@ const AccountPage: React.FC = () => {
                   <td className="px-4 py-3">
                     <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${getRoleColor(account.role)}`}>
                       <span className="hidden sm:inline">{account.role}</span>
-                      <span className="sm:hidden">{account.role === 'Admin' ? 'ADM' : account.role === 'Quản lý' ? 'QL' : 'NV'}</span>
+                      <span className="sm:hidden">{account.role === 'Admin' ? 'ADM' : account.role === 'Staff' ? 'ST' : 'AG'}</span>
                     </span>
                   </td>
                   <td className="px-4 py-3">
