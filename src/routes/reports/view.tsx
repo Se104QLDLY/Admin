@@ -165,9 +165,9 @@ const ReportView: React.FC = () => {
           </button>
           <button className="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors">
             In báo cáo
-          </button>
-        </div>
+        </button>
       </div>
+    </div>
     </DashboardLayout>
   );
 };
