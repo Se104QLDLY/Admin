@@ -19,7 +19,7 @@ interface AgencyFormData {
   status: 'Hoạt động' | 'Tạm dừng' | 'Ngừng hợp tác';
 }
 
-const schema = yup.object({
+const schema = yup.object().shape({
   code: yup
     .string()
     .required('Mã đại lý là bắt buộc')
@@ -49,6 +49,7 @@ const schema = yup.object({
     .email('Email không hợp lệ'),
   manager: yup
     .string()
+    .optional()
     .max(50, 'Tên người quản lý không được vượt quá 50 ký tự'),
   creditLimit: yup
     .number()
@@ -58,8 +59,8 @@ const schema = yup.object({
   status: yup
     .string()
     .required('Trạng thái là bắt buộc')
-    .oneOf(['Hoạt động', 'Tạm dừng', 'Ngừng hợp tác']),
-});
+    .oneOf(['Hoạt động', 'Tạm dừng', 'Ngừng hợp tác'] as const),
+}) as yup.ObjectSchema<AgencyFormData>;
 
 const EditAgencyPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,6 +73,18 @@ const EditAgencyPage: React.FC = () => {
     formState: { errors, isSubmitting },
   } = useForm<AgencyFormData>({
     resolver: yupResolver(schema),
+    defaultValues: {
+      code: '',
+      name: '',
+      typeId: 0,
+      district: '',
+      address: '',
+      phone: '',
+      email: '',
+      manager: undefined,
+      creditLimit: 1000000,
+      status: 'Hoạt động'
+    }
   });
 
   // Mock data - trong thực tế sẽ fetch từ API
