@@ -3,7 +3,14 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { DashboardLayout } from '../../components/layout/DashboardLayout';
+import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
+import { 
+  ArrowLeft, 
+  Edit, 
+  Shield, 
+  Save, 
+  AlertTriangle
+} from 'lucide-react';
 
 interface RegulationFormData {
   code: string;
@@ -59,21 +66,20 @@ const schema = yup.object({
 });
 
 const EditRegulationPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  
+  const { id } = useParams<{ id: string }>();
+
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<RegulationFormData>({
     resolver: yupResolver(schema),
   });
 
   // Mock data - trong thực tế sẽ fetch từ API
-  const existingRegulation = {
-    id: id || '1',
+  const mockRegulation: RegulationFormData = {
     code: 'QD001',
     title: 'Quy định về mức nợ tối đa của đại lý',
     description: 'Quy định mức nợ tối đa mà một đại lý có thể có đối với công ty nhằm đảm bảo tính thanh khoản và giảm thiểu rủi ro tài chính.',
@@ -97,24 +103,29 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
     effectiveDate: '2024-01-15',
     expiryDate: '2025-12-31',
     category: 'Quản lý tài chính',
-    priority: 'Cao' as const,
-    status: 'Hiệu lực' as const,
+    priority: 'Cao',
+    status: 'Hiệu lực',
   };
 
-  // Load existing data into form
   useEffect(() => {
-    if (existingRegulation) {
-      setValue('code', existingRegulation.code);
-      setValue('title', existingRegulation.title);
-      setValue('description', existingRegulation.description);
-      setValue('content', existingRegulation.content);
-      setValue('effectiveDate', existingRegulation.effectiveDate);
-      setValue('expiryDate', existingRegulation.expiryDate);
-      setValue('category', existingRegulation.category);
-      setValue('priority', existingRegulation.priority);
-      setValue('status', existingRegulation.status);
+    // Simulate loading data from API
+    const loadRegulation = async () => {
+      try {
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Set form data
+        reset(mockRegulation);
+      } catch (error) {
+        console.error('Error loading regulation:', error);
+        alert('Có lỗi xảy ra khi tải thông tin quy định!');
+      }
+    };
+
+    if (id) {
+      loadRegulation();
     }
-  }, [setValue]);
+  }, [id, reset]);
 
   const onSubmit = async (data: RegulationFormData) => {
     try {
@@ -143,210 +154,269 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
   return (
     <DashboardLayout>
-      <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-blue-100">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-extrabold text-blue-800 mb-2 drop-shadow uppercase tracking-wide">
-              Chỉnh sửa quy định
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6" style={{ overflow: 'visible' }}>
+        {/* Header Section */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-400/20 to-blue-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+          
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+              <Edit className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+              CHỈNH SỬA QUY ĐỊNH
             </h1>
-            <p className="text-gray-600">Cập nhật thông tin quy định {existingRegulation.code}</p>
-          </div>
-          <div className="flex gap-3">
-            <Link
-              to={`/regulations/view/${id}`}
-              className="flex items-center px-4 py-2 text-purple-600 hover:text-purple-800 bg-purple-50 hover:bg-purple-100 rounded-xl transition-colors font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-              </svg>
-              Xem
-            </Link>
-            <Link
-              to="/regulations"
-              className="flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              Quay lại
-            </Link>
+            <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
+              Cập nhật thông tin quy định {id} với các thay đổi cần thiết và cấu hình mới.
+            </p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Mã quy định */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Mã quy định <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register('code')}
-              placeholder="Ví dụ: QD001"
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            />
-            {errors.code && (
-              <span className="text-red-500 text-sm mt-1">{errors.code.message}</span>
-            )}
-          </div>
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link
+            to="/regulations"
+            className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 bg-white hover:bg-blue-50 rounded-xl transition-all duration-200 font-semibold shadow-lg border border-blue-200"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Quay lại danh sách
+          </Link>
+        </div>
 
-          {/* Danh mục */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Danh mục <span className="text-red-500">*</span>
-            </label>
-            <select
-              {...register('category')}
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            >
-              <option value="">Chọn danh mục</option>
-              {categories.map((category) => (
-                <option key={category} value={category}>{category}</option>
-              ))}
-            </select>
-            {errors.category && (
-              <span className="text-red-500 text-sm mt-1">{errors.category.message}</span>
-            )}
-          </div>
-
-          {/* Tiêu đề */}
-          <div className="lg:col-span-2">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Tiêu đề quy định <span className="text-red-500">*</span>
-            </label>
-            <input
-              {...register('title')}
-              placeholder="Nhập tiêu đề quy định"
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            />
-            {errors.title && (
-              <span className="text-red-500 text-sm mt-1">{errors.title.message}</span>
-            )}
-          </div>
-
-          {/* Mô tả ngắn */}
-          <div className="lg:col-span-2">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Mô tả ngắn <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              {...register('description')}
-              rows={3}
-              placeholder="Mô tả ngắn gọn về quy định này"
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm resize-none"
-            />
-            {errors.description && (
-              <span className="text-red-500 text-sm mt-1">{errors.description.message}</span>
-            )}
-          </div>
-
-          {/* Nội dung quy định */}
-          <div className="lg:col-span-2">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Nội dung quy định <span className="text-red-500">*</span>
-            </label>
-            <textarea
-              {...register('content')}
-              rows={8}
-              placeholder="Nhập nội dung chi tiết của quy định..."
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm resize-none"
-            />
-            {errors.content && (
-              <span className="text-red-500 text-sm mt-1">{errors.content.message}</span>
-            )}
-          </div>
-
-          {/* Ngày hiệu lực */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Ngày hiệu lực <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="date"
-              {...register('effectiveDate')}
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            />
-            {errors.effectiveDate && (
-              <span className="text-red-500 text-sm mt-1">{errors.effectiveDate.message}</span>
-            )}
-          </div>
-
-          {/* Ngày hết hạn */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Ngày hết hạn (tùy chọn)
-            </label>
-            <input
-              type="date"
-              {...register('expiryDate')}
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            />
-            {errors.expiryDate && (
-              <span className="text-red-500 text-sm mt-1">{errors.expiryDate.message}</span>
-            )}
-          </div>
-
-          {/* Mức độ ưu tiên */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Mức độ ưu tiên <span className="text-red-500">*</span>
-            </label>
-            <select
-              {...register('priority')}
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            >
-              <option value="Thấp">Thấp</option>
-              <option value="Trung bình">Trung bình</option>
-              <option value="Cao">Cao</option>
-              <option value="Rất cao">Rất cao</option>
-            </select>
-            {errors.priority && (
-              <span className="text-red-500 text-sm mt-1">{errors.priority.message}</span>
-            )}
-          </div>
-
-          {/* Trạng thái */}
-          <div className="lg:col-span-1">
-            <label className="block text-blue-700 font-semibold mb-2">
-              Trạng thái <span className="text-red-500">*</span>
-            </label>
-            <select
-              {...register('status')}
-              className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg shadow-sm"
-            >
-              <option value="Dự thảo">Dự thảo</option>
-              <option value="Hiệu lực">Hiệu lực</option>
-              <option value="Hết hiệu lực">Hết hiệu lực</option>
-            </select>
-            {errors.status && (
-              <span className="text-red-500 text-sm mt-1">{errors.status.message}</span>
-            )}
-          </div>
-
-          {/* Buttons */}
-          <div className="lg:col-span-2 flex gap-4 pt-6">
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent mr-2"></div>
-                  Đang cập nhật...
+        {/* Form */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Basic Information Section */}
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Thông tin cơ bản
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Mã quy định */}
+                <div>
+                  <label className="block text-blue-700 font-semibold mb-2">
+                    Mã quy định <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register('code')}
+                    placeholder="Ví dụ: QD001"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  />
+                  {errors.code && (
+                    <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      {errors.code.message}
+                    </span>
+                  )}
                 </div>
-              ) : (
-                'Cập nhật quy định'
-              )}
-            </button>
-            <Link
-              to="/regulations"
-              className="flex-1 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl shadow-lg hover:bg-gray-200 transition-all text-lg text-center"
-            >
-              Hủy bỏ
-            </Link>
-          </div>
-        </form>
+
+                {/* Danh mục */}
+                <div>
+                  <label className="block text-blue-700 font-semibold mb-2">
+                    Danh mục <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    {...register('category')}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  >
+                    <option value="">Chọn danh mục</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                  {errors.category && (
+                    <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      {errors.category.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Tiêu đề */}
+              <div className="mt-6">
+                <label className="block text-blue-700 font-semibold mb-2">
+                  Tiêu đề quy định <span className="text-red-500">*</span>
+                </label>
+                <input
+                  {...register('title')}
+                  placeholder="Nhập tiêu đề quy định"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                />
+                {errors.title && (
+                  <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    {errors.title.message}
+                  </span>
+                )}
+              </div>
+
+              {/* Mô tả ngắn */}
+              <div className="mt-6">
+                <label className="block text-blue-700 font-semibold mb-2">
+                  Mô tả ngắn <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  {...register('description')}
+                  rows={3}
+                  placeholder="Mô tả ngắn gọn về quy định này"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                />
+                {errors.description && (
+                  <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    {errors.description.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Content Section */}
+            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-6 border border-emerald-200">
+              <h2 className="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Nội dung quy định
+              </h2>
+              
+              <div>
+                <label className="block text-emerald-700 font-semibold mb-2">
+                  Nội dung chi tiết <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  {...register('content')}
+                  rows={8}
+                  placeholder="Nhập nội dung chi tiết của quy định..."
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 resize-none"
+                />
+                {errors.content && (
+                  <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    {errors.content.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Settings Section */}
+            <div className="bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200">
+              <h2 className="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Cài đặt và trạng thái
+              </h2>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Ngày hiệu lực */}
+                <div>
+                  <label className="block text-purple-700 font-semibold mb-2">
+                    Ngày hiệu lực <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    {...register('effectiveDate')}
+                    type="date"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                  {errors.effectiveDate && (
+                    <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      {errors.effectiveDate.message}
+                    </span>
+                  )}
+                </div>
+
+                {/* Ngày hết hạn */}
+                <div>
+                  <label className="block text-purple-700 font-semibold mb-2">
+                    Ngày hết hạn
+                  </label>
+                  <input
+                    {...register('expiryDate')}
+                    type="date"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                  {errors.expiryDate && (
+                    <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      {errors.expiryDate.message}
+                    </span>
+                  )}
+                </div>
+
+                {/* Mức độ ưu tiên */}
+                <div>
+                  <label className="block text-purple-700 font-semibold mb-2">
+                    Mức độ ưu tiên <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    {...register('priority')}
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  >
+                    <option value="Thấp">Thấp</option>
+                    <option value="Trung bình">Trung bình</option>
+                    <option value="Cao">Cao</option>
+                    <option value="Rất cao">Rất cao</option>
+                  </select>
+                  {errors.priority && (
+                    <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                      <AlertTriangle className="h-3 w-3" />
+                      {errors.priority.message}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Trạng thái */}
+              <div className="mt-6">
+                <label className="block text-purple-700 font-semibold mb-2">
+                  Trạng thái <span className="text-red-500">*</span>
+                </label>
+                <select
+                  {...register('status')}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                >
+                  <option value="Dự thảo">Dự thảo</option>
+                  <option value="Hiệu lực">Hiệu lực</option>
+                  <option value="Hết hiệu lực">Hết hiệu lực</option>
+                </select>
+                {errors.status && (
+                  <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
+                    <AlertTriangle className="h-3 w-3" />
+                    {errors.status.message}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end gap-4 pt-6">
+              <Link
+                to="/regulations"
+                className="px-6 py-3 bg-gray-100 text-gray-700 rounded-xl hover:bg-gray-200 transition-all duration-200 font-semibold"
+              >
+                Hủy bỏ
+              </Link>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center px-8 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Đang cập nhật...
+                  </>
+                ) : (
+                  <>
+                    <Save className="h-5 w-5 mr-2" />
+                    Cập nhật quy định
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </DashboardLayout>
   );

@@ -22,6 +22,7 @@ import AddAgencyPage from './agencies/add';
 import ViewAgencyPage from './agencies/view';
 import EditAgencyPage from './agencies/edit';
 import AgencyPage from './agencies/index';
+import AdminReportsPage from './reports';
 
 const AppRoutes = () => {
   return (
@@ -36,7 +37,7 @@ const AppRoutes = () => {
       
       {/* Admin routes */}
       <Route path="/admin" element={<DashboardPage />} />
-      <Route path="/reports" element={<ReportsPage />} />
+      <Route path="/reports" element={<AdminReportsPage />} />
       <Route path="/reports/add" element={<AddReportPage />} />
       <Route path="/reports/view/:id" element={<ReportView />} />
       <Route path="/reports/edit/:id" element={<ReportEdit />} />

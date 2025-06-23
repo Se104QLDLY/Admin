@@ -1,6 +1,17 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { DashboardLayout } from '../../components/layout/DashboardLayout';
+import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
+import { 
+  ArrowLeft, 
+  Edit, 
+  Shield, 
+  CheckCircle, 
+  AlertCircle, 
+  Calendar,
+  Clock,
+  User,
+  FileText
+} from 'lucide-react';
 
 interface Regulation {
   id: string;
@@ -75,43 +86,45 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
   return (
     <DashboardLayout>
-      <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-blue-100">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-extrabold text-blue-800 mb-2 drop-shadow uppercase tracking-wide">
-              Chi tiết quy định
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6" style={{ overflow: 'visible' }}>
+        {/* Header Section */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-400/20 to-blue-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+          
+          <div className="relative z-10 flex flex-col items-center text-center">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+              <Shield className="h-10 w-10 text-white" />
+            </div>
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+              CHI TIẾT QUY ĐỊNH
             </h1>
-            <p className="text-gray-600">Xem thông tin chi tiết quy định {regulation.code}</p>
+            <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
+              Xem thông tin chi tiết quy định {regulation.code} với đầy đủ nội dung và cấu hình.
+            </p>
           </div>
-          <div className="flex gap-3">
-            <Link
-              to={`/regulations/edit/${regulation.id}`}
-              className="flex items-center px-4 py-2 text-green-600 hover:text-green-800 bg-green-50 hover:bg-green-100 rounded-xl transition-colors font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-              </svg>
-              Sửa
-            </Link>
-            <Link
-              to="/regulations"
-              className="flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors font-semibold"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-              </svg>
-              Quay lại
-            </Link>
-          </div>
+        </div>
+
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link
+            to="/regulations"
+            className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 bg-white hover:bg-blue-50 rounded-xl transition-all duration-200 font-semibold shadow-lg border border-blue-200"
+          >
+            <ArrowLeft className="h-5 w-5 mr-2" />
+            Quay lại danh sách
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
-            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-100">
-              <h2 className="text-xl font-bold text-blue-800 mb-4">Thông tin cơ bản</h2>
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5" />
+                Thông tin cơ bản
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-blue-700 font-semibold mb-1">Mã quy định</label>
@@ -133,8 +146,11 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Content */}
-            <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-100">
-              <h2 className="text-xl font-bold text-green-800 mb-4">Nội dung quy định</h2>
+            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200 shadow-xl">
+              <h2 className="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                Nội dung quy định
+              </h2>
               <div className="bg-white p-6 rounded-lg border">
                 <pre className="whitespace-pre-wrap text-gray-700 leading-relaxed font-sans">{regulation.content}</pre>
               </div>
@@ -144,8 +160,11 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Status Card */}
-            <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Trạng thái</h3>
+            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Shield className="h-5 w-5 text-blue-600" />
+                Trạng thái
+              </h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600 font-medium">Trạng thái:</span>
@@ -163,8 +182,11 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Dates Card */}
-            <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Thời gian</h3>
+            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Calendar className="h-5 w-5 text-blue-600" />
+                Thời gian
+              </h3>
               <div className="space-y-3">
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">Ngày hiệu lực</label>
@@ -192,30 +214,26 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Actions Card */}
-            <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Thao tác</h3>
+            <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Edit className="h-5 w-5 text-blue-600" />
+                Thao tác
+              </h3>
               <div className="space-y-3">
                 <Link
                   to={`/regulations/edit/${regulation.id}`}
-                  className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                  className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-lg hover:from-emerald-600 hover:to-green-600 transition-all duration-200 font-semibold"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                  </svg>
-                  Chỉnh sửa
+                  <Edit className="h-4 w-4 mr-2" />
+                  Chỉnh sửa quy định
                 </Link>
-                <button className="w-full flex items-center justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                  Xóa quy định
-                </button>
-                <button className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                  Tải xuống PDF
-                </button>
+                <Link
+                  to="/regulations"
+                  className="w-full flex items-center justify-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all duration-200 font-semibold"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Quay lại danh sách
+                </Link>
               </div>
             </div>
           </div>
