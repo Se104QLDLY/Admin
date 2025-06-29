@@ -120,7 +120,7 @@ const AccountPage: React.FC = () => {
     switch (role) {
       case 'Admin': return 'bg-gradient-to-r from-red-50 to-pink-50 text-red-700 border border-red-200';
       case 'Staff': return 'bg-gradient-to-r from-emerald-50 to-green-50 text-emerald-700 border border-emerald-200';
-      case 'Agency': return 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200';
+      case 'Agency': return 'bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 border border-blue-200';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -154,17 +154,17 @@ const AccountPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen p-6" style={{ overflow: 'visible' }}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6" style={{ overflow: 'visible' }}>
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-orange-100 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-yellow-400/20 to-orange-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-200 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-cyan-400/20 rounded-full translate-y-12 -translate-x-12"></div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-3xl mb-4 shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl mb-4 shadow-xl">
               <Users className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-2">
               QUẢN LÝ TÀI KHOẢN
             </h1>
             <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
@@ -174,7 +174,7 @@ const AccountPage: React.FC = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 border border-orange-100 mb-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-200 mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-4 flex-1">
               <div className="relative flex-1 max-w-md">
@@ -184,13 +184,13 @@ const AccountPage: React.FC = () => {
                   placeholder="Tìm kiếm tài khoản..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                 />
               </div>
               <select
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value)}
-                className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               >
                 <option value="all">Tất cả vai trò</option>
                 <option value="Admin">Admin</option>
@@ -200,7 +200,7 @@ const AccountPage: React.FC = () => {
               <select
                 value={selectedStatus}
                 onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200"
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
               >
                 <option value="all">Tất cả trạng thái</option>
                 <option value="Hoạt động">Hoạt động</option>
@@ -210,7 +210,7 @@ const AccountPage: React.FC = () => {
             </div>
             <Link
               to="/account/add"
-              className="flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 text-white rounded-xl hover:from-orange-600 hover:via-amber-600 hover:to-yellow-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-700 hover:to-cyan-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               <UserPlus className="h-6 w-6 mr-2" />
               Tạo tài khoản mới
@@ -219,10 +219,10 @@ const AccountPage: React.FC = () => {
         </div>
 
         {/* Accounts Table */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-orange-100 mb-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-200 mb-8">
           <div className="p-6 border-b border-gray-100">
             <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
-              <Users className="h-7 w-7 text-orange-600" />
+              <Users className="h-7 w-7 text-blue-600" />
               Danh sách tài khoản
               <span className="text-sm font-normal text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
                 {filteredAccounts.length} tài khoản
@@ -231,23 +231,23 @@ const AccountPage: React.FC = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-orange-50 to-amber-50">
+              <thead className="bg-gradient-to-r from-blue-50 to-cyan-50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Tên đăng nhập</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Họ tên</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider hidden lg:table-cell">Email</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Vai trò</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Trạng thái</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider hidden md:table-cell">Ngày tạo</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider hidden xl:table-cell">Đăng nhập cuối</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-orange-700 uppercase tracking-wider">Thao tác</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Tên đăng nhập</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Họ tên</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider hidden lg:table-cell">Email</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Vai trò</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Trạng thái</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider hidden md:table-cell">Ngày tạo</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider hidden xl:table-cell">Đăng nhập cuối</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Thao tác</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
                 {filteredAccounts.map((account) => (
-                  <tr key={account.id} className="hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 transition-all duration-200 group">
+                  <tr key={account.id} className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all duration-200 group">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-3 py-1 bg-orange-100 text-orange-800 text-sm font-bold rounded-full">
+                      <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
                         {account.username}
                       </span>
                     </td>
@@ -300,7 +300,7 @@ const AccountPage: React.FC = () => {
                         </Link>
                         <Link
                           to={`/account/edit/${account.id}`}
-                          className="text-emerald-600 hover:text-emerald-900 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-emerald-50 transition-all duration-200"
+                          className="text-blue-600 hover:text-blue-900 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-all duration-200"
                         >
                           <Edit className="h-4 w-4" />
                           Sửa
@@ -322,7 +322,7 @@ const AccountPage: React.FC = () => {
         </div>
 
         {filteredAccounts.length === 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-orange-100">
+          <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-blue-200">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
               <Users className="h-8 w-8 text-gray-400" />
             </div>
@@ -330,7 +330,7 @@ const AccountPage: React.FC = () => {
             <p className="text-gray-600 mb-6">Không có tài khoản nào phù hợp với tìm kiếm của bạn.</p>
             <Link
               to="/account/add"
-              className="inline-flex items-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:from-blue-700 hover:to-cyan-600 transition-colors"
             >
               <UserPlus className="h-4 w-4 mr-2" />
               Tạo tài khoản đầu tiên

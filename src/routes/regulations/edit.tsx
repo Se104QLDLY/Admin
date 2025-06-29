@@ -154,17 +154,17 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6" style={{ overflow: 'visible' }}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6" style={{ overflow: 'visible' }}>
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-400/20 to-blue-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-200 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-cyan-400/20 rounded-full translate-y-12 -translate-x-12"></div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl mb-4 shadow-xl">
               <Edit className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-2">
               CHỈNH SỬA QUY ĐỊNH
             </h1>
             <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
@@ -185,10 +185,10 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-blue-100">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-blue-200">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Basic Information Section */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
               <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5" />
                 Thông tin cơ bản
@@ -203,7 +203,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
                   <input
                     {...register('code')}
                     placeholder="Ví dụ: QD001"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                   />
                   {errors.code && (
                     <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -220,7 +220,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
                   </label>
                   <select
                     {...register('category')}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                   >
                     <option value="">Chọn danh mục</option>
                     {categories.map((category) => (
@@ -244,7 +244,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
                 <input
                   {...register('title')}
                   placeholder="Nhập tiêu đề quy định"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                 />
                 {errors.title && (
                   <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -263,7 +263,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
                   {...register('description')}
                   rows={3}
                   placeholder="Mô tả ngắn gọn về quy định này"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none bg-white"
                 />
                 {errors.description && (
                   <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -275,21 +275,21 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Content Section */}
-            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl p-6 border border-emerald-200">
-              <h2 className="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5" />
                 Nội dung quy định
               </h2>
               
               <div>
-                <label className="block text-emerald-700 font-semibold mb-2">
+                <label className="block text-blue-700 font-semibold mb-2">
                   Nội dung chi tiết <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   {...register('content')}
                   rows={8}
                   placeholder="Nhập nội dung chi tiết của quy định..."
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all duration-200 resize-none"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none bg-white"
                 />
                 {errors.content && (
                   <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -301,8 +301,8 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Settings Section */}
-            <div className="bg-gradient-to-r from-purple-50 to-violet-50 rounded-xl p-6 border border-purple-200">
-              <h2 className="text-xl font-bold text-purple-800 mb-4 flex items-center gap-2">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-200">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5" />
                 Cài đặt và trạng thái
               </h2>
@@ -310,13 +310,13 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Ngày hiệu lực */}
                 <div>
-                  <label className="block text-purple-700 font-semibold mb-2">
+                  <label className="block text-blue-700 font-semibold mb-2">
                     Ngày hiệu lực <span className="text-red-500">*</span>
                   </label>
                   <input
                     {...register('effectiveDate')}
                     type="date"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                   />
                   {errors.effectiveDate && (
                     <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -328,13 +328,13 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
                 {/* Ngày hết hạn */}
                 <div>
-                  <label className="block text-purple-700 font-semibold mb-2">
+                  <label className="block text-blue-700 font-semibold mb-2">
                     Ngày hết hạn
                   </label>
                   <input
                     {...register('expiryDate')}
                     type="date"
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                   />
                   {errors.expiryDate && (
                     <span className="text-red-500 text-sm mt-1 flex items-center gap-1">
@@ -346,12 +346,12 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
                 {/* Mức độ ưu tiên */}
                 <div>
-                  <label className="block text-purple-700 font-semibold mb-2">
+                  <label className="block text-blue-700 font-semibold mb-2">
                     Mức độ ưu tiên <span className="text-red-500">*</span>
                   </label>
                   <select
                     {...register('priority')}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                   >
                     <option value="Thấp">Thấp</option>
                     <option value="Trung bình">Trung bình</option>
@@ -369,12 +369,12 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
               {/* Trạng thái */}
               <div className="mt-6">
-                <label className="block text-purple-700 font-semibold mb-2">
+                <label className="block text-blue-700 font-semibold mb-2">
                   Trạng thái <span className="text-red-500">*</span>
                 </label>
                 <select
                   {...register('status')}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white"
                 >
                   <option value="Dự thảo">Dự thảo</option>
                   <option value="Hiệu lực">Hiệu lực</option>
@@ -400,7 +400,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex items-center px-8 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center px-8 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-700 hover:to-cyan-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

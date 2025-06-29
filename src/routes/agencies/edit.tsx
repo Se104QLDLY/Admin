@@ -147,16 +147,16 @@ const EditAgencyPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100 p-6 flex items-center justify-center">
         <div className="max-w-2xl w-full mx-auto bg-white rounded-3xl shadow-2xl p-10 border-2 border-blue-100">
           <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center shadow-lg">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 flex items-center justify-center shadow-lg">
                 <Edit className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 drop-shadow uppercase tracking-wide">Chỉnh sửa đại lý</h1>
-                <p className="text-gray-600 text-base mt-1">Cập nhật thông tin đại lý {existingAgency.code}</p>
+                <h1 className="text-2xl md:text-3xl font-extrabold text-blue-900 drop-shadow uppercase tracking-wide">Chỉnh sửa đại lý</h1>
+                <p className="text-blue-700 text-base mt-1">Cập nhật thông tin đại lý {existingAgency.code}</p>
               </div>
             </div>
             <Link to="/agencies" className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-700 rounded-xl hover:bg-blue-200 transition-colors font-semibold shadow-md">
@@ -335,7 +335,7 @@ const EditAgencyPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center">
@@ -350,7 +350,7 @@ const EditAgencyPage: React.FC = () => {
               </button>
               <Link
                 to="/agencies"
-                className="flex-1 py-3 bg-gray-100 text-gray-700 font-bold rounded-xl shadow-lg hover:bg-gray-200 transition-all text-lg text-center flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-blue-100 text-blue-700 font-bold rounded-xl shadow-lg hover:bg-blue-200 transition-all text-lg text-center flex items-center justify-center gap-2"
               >
                 <ArrowLeft className="h-5 w-5" /> Hủy bỏ
               </Link>

@@ -86,17 +86,17 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6" style={{ overflow: 'visible' }}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6" style={{ overflow: 'visible' }}>
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-400/20 to-blue-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-200 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-cyan-400/20 rounded-full translate-y-12 -translate-x-12"></div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl mb-4 shadow-xl">
               <Shield className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-2">
               CHI TIẾT QUY ĐỊNH
             </h1>
             <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
@@ -120,7 +120,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
               <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5" />
                 Thông tin cơ bản
@@ -146,8 +146,8 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
             </div>
 
             {/* Content */}
-            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200 shadow-xl">
-              <h2 className="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <FileText className="h-5 w-5" />
                 Nội dung quy định
               </h2>
@@ -222,7 +222,7 @@ Quy định này có hiệu lực từ ngày 15/01/2024 và thay thế các quy 
               <div className="space-y-3">
                 <Link
                   to={`/regulations/edit/${regulation.id}`}
-                  className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-lg hover:from-emerald-600 hover:to-green-600 transition-all duration-200 font-semibold"
+                  className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:from-blue-700 hover:to-cyan-600 transition-all duration-200 font-semibold"
                 >
                   <Edit className="h-4 w-4 mr-2" />
                   Chỉnh sửa quy định

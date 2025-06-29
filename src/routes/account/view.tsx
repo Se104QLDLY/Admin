@@ -54,7 +54,7 @@ const ViewAccountPage: React.FC = () => {
     switch (role) {
       case 'Admin': return 'bg-gradient-to-r from-red-50 to-pink-50 text-red-700 border border-red-200';
       case 'Staff': return 'bg-gradient-to-r from-emerald-50 to-green-50 text-emerald-700 border border-emerald-200';
-      case 'Agency': return 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200';
+      case 'Agency': return 'bg-gradient-to-r from-blue-50 to-cyan-50 text-blue-700 border border-blue-200';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -88,17 +88,17 @@ const ViewAccountPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen p-6" style={{ overflow: 'visible' }}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6" style={{ overflow: 'visible' }}>
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-orange-100 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400/20 to-red-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-yellow-400/20 to-orange-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-200 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-cyan-400/20 rounded-full translate-y-12 -translate-x-12"></div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 rounded-3xl mb-4 shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl mb-4 shadow-xl">
               <Users className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-amber-600 to-yellow-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-2">
               CHI TIẾT TÀI KHOẢN
             </h1>
             <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
@@ -111,7 +111,7 @@ const ViewAccountPage: React.FC = () => {
         <div className="mb-6">
           <Link
             to="/account"
-            className="inline-flex items-center px-4 py-2 text-orange-600 hover:text-orange-800 bg-white hover:bg-orange-50 rounded-xl transition-all duration-200 font-semibold shadow-lg border border-orange-200"
+            className="inline-flex items-center px-4 py-2 text-blue-600 hover:text-blue-800 bg-white hover:bg-blue-50 rounded-xl transition-all duration-200 font-semibold shadow-lg border border-blue-200"
           >
             <ArrowLeft className="h-5 w-5 mr-2" />
             Quay lại danh sách
@@ -122,36 +122,36 @@ const ViewAccountPage: React.FC = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Basic Info */}
-            <div className="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl p-6 border border-orange-200 shadow-xl">
-              <h2 className="text-xl font-bold text-orange-800 mb-4 flex items-center gap-2">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Users className="h-5 w-5" />
                 Thông tin cơ bản
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-orange-700 font-semibold mb-1">Tên đăng nhập</label>
+                  <label className="block text-blue-700 font-semibold mb-1">Tên đăng nhập</label>
                   <p className="bg-white px-4 py-2 rounded-lg border text-gray-800 font-semibold">{account.username}</p>
                 </div>
                 <div>
-                  <label className="block text-orange-700 font-semibold mb-1">Họ tên</label>
+                  <label className="block text-blue-700 font-semibold mb-1">Họ tên</label>
                   <p className="bg-white px-4 py-2 rounded-lg border text-gray-800">{account.fullName}</p>
                 </div>
                 <div>
-                  <label className="block text-orange-700 font-semibold mb-1">Email</label>
+                  <label className="block text-blue-700 font-semibold mb-1">Email</label>
                   <div className="bg-white px-4 py-2 rounded-lg border flex items-center gap-2">
                     <Mail className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-800">{account.email}</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-orange-700 font-semibold mb-1">Số điện thoại</label>
+                  <label className="block text-blue-700 font-semibold mb-1">Số điện thoại</label>
                   <div className="bg-white px-4 py-2 rounded-lg border flex items-center gap-2">
                     <Phone className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-800">{account.phone || 'Chưa cập nhật'}</span>
                   </div>
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-orange-700 font-semibold mb-1">Địa chỉ</label>
+                  <label className="block text-blue-700 font-semibold mb-1">Địa chỉ</label>
                   <div className="bg-white px-4 py-2 rounded-lg border flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-gray-400" />
                     <span className="text-gray-800">{account.address || 'Chưa cập nhật'}</span>
@@ -161,21 +161,21 @@ const ViewAccountPage: React.FC = () => {
             </div>
 
             {/* Account Status */}
-            <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200 shadow-xl">
-              <h2 className="text-xl font-bold text-emerald-800 mb-4 flex items-center gap-2">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border border-blue-200 shadow-xl">
+              <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2">
                 <Shield className="h-5 w-5" />
                 Trạng thái và phân quyền
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-emerald-700 font-semibold mb-2">Vai trò</label>
+                  <label className="block text-blue-700 font-semibold mb-2">Vai trò</label>
                   <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-sm ${getRoleColor(account.role)}`}>
                     {getRoleIcon(account.role)}
                     {account.role}
                   </span>
                 </div>
                 <div>
-                  <label className="block text-emerald-700 font-semibold mb-2">Trạng thái</label>
+                  <label className="block text-blue-700 font-semibold mb-2">Trạng thái</label>
                   <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold shadow-sm ${getStatusColor(account.status)}`}>
                     {getStatusIcon(account.status)}
                     {account.status}
@@ -190,7 +190,7 @@ const ViewAccountPage: React.FC = () => {
             {/* Account Info Card */}
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Users className="h-5 w-5 text-orange-600" />
+                <Users className="h-5 w-5 text-blue-600" />
                 Thông tin tài khoản
               </h3>
               <div className="space-y-4">
@@ -200,7 +200,7 @@ const ViewAccountPage: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600 font-medium">Tên đăng nhập:</span>
-                  <span className="text-orange-600 font-semibold">{account.username}</span>
+                  <span className="text-blue-600 font-semibold">{account.username}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-600 font-medium">Vai trò:</span>
@@ -220,7 +220,7 @@ const ViewAccountPage: React.FC = () => {
             {/* Dates Card */}
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-orange-600" />
+                <Calendar className="h-5 w-5 text-blue-600" />
                 Thời gian
               </h3>
               <div className="space-y-3">
@@ -249,13 +249,13 @@ const ViewAccountPage: React.FC = () => {
             {/* Actions Card */}
             <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-xl">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Edit className="h-5 w-5 text-orange-600" />
+                <Edit className="h-5 w-5 text-blue-600" />
                 Thao tác
               </h3>
               <div className="space-y-3">
                 <Link
                   to={`/account/edit/${account.id}`}
-                  className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-lg hover:from-emerald-600 hover:to-green-600 transition-all duration-200 font-semibold"
+                  className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:from-blue-700 hover:to-cyan-600 transition-all duration-200 font-semibold"
                 >
                   <Edit className="h-4 w-4 mr-2" />
                   Chỉnh sửa tài khoản

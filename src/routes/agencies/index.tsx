@@ -173,7 +173,7 @@ const AgencyPage: React.FC = () => {
 
         {/* Modal phê duyệt */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 animate-fade-in" onClick={closeModal}>
+          <div className="fixed inset-0 bg-gradient-to-br from-blue-100/80 via-cyan-100/80 to-blue-200/80 flex items-center justify-center z-50 animate-fade-in" onClick={closeModal}>
             <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-blue-200 relative animate-scale-in" onClick={e => e.stopPropagation()}>
               <div className="flex items-center gap-3 mb-6">
                 <ShieldCheck className="h-9 w-9 text-blue-500 animate-bounce-slow" />
@@ -210,7 +210,7 @@ const AgencyPage: React.FC = () => {
         )}
         {/* Modal xóa */}
         {deleteId && (
-          <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+          <div className="fixed inset-0 bg-gradient-to-br from-blue-100/80 via-cyan-100/80 to-blue-200/80 flex items-center justify-center z-50">
             <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-red-100">
               <div className="flex items-center gap-3 mb-4">
                 <Trash2 className="h-7 w-7 text-red-600" />

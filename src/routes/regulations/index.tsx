@@ -95,17 +95,17 @@ const RegulationsPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6" style={{ overflow: 'visible' }}>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 p-6" style={{ overflow: 'visible' }}>
         {/* Header Section */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-100 mb-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full -translate-y-16 translate-x-16"></div>
-          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-400/20 to-blue-400/20 rounded-full translate-y-12 -translate-x-12"></div>
+        <div className="bg-white rounded-3xl shadow-2xl p-8 border border-blue-200 mb-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-cyan-400/20 rounded-full -translate-y-16 translate-x-16"></div>
+          <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-blue-400/20 to-cyan-400/20 rounded-full translate-y-12 -translate-x-12"></div>
           
           <div className="relative z-10 flex flex-col items-center text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 rounded-3xl mb-4 shadow-xl">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-3xl mb-4 shadow-xl">
               <Shield className="h-10 w-10 text-white" />
             </div>
-            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-2">
+            <h1 className="text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent mb-2">
               QUẢN LÝ QUY ĐỊNH
             </h1>
             <p className="text-gray-600 text-lg max-w-3xl leading-relaxed">
@@ -115,7 +115,7 @@ const RegulationsPage: React.FC = () => {
         </div>
 
         {/* Search and Add Button */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-100 mb-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-200 mb-6">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="flex items-center gap-4 flex-1">
               <div className="relative flex-1 max-w-md">
@@ -131,7 +131,7 @@ const RegulationsPage: React.FC = () => {
             </div>
             <Link
               to="/regulations/add"
-              className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-500 text-white rounded-xl hover:from-blue-600 hover:via-purple-600 hover:to-indigo-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-xl hover:from-blue-700 hover:to-cyan-600 transition-all duration-200 font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
               <FilePlus2 className="h-6 w-6 mr-2" />
               Tạo quy định mới
@@ -140,7 +140,7 @@ const RegulationsPage: React.FC = () => {
         </div>
 
         {/* Regulations Table */}
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-100 mb-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-blue-200 mb-8">
           <div className="p-6 border-b border-gray-100">
             <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-3">
               <Shield className="h-7 w-7 text-blue-600" />
@@ -152,7 +152,7 @@ const RegulationsPage: React.FC = () => {
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gradient-to-r from-blue-50 to-indigo-50">
+              <thead className="bg-gradient-to-r from-blue-50 to-cyan-50">
                 <tr>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Mã quy định</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Tiêu đề</th>
@@ -164,7 +164,7 @@ const RegulationsPage: React.FC = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-100">
                 {filteredRegulations.map((regulation) => (
-                  <tr key={regulation.id} className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200 group">
+                  <tr key={regulation.id} className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all duration-200 group">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-800 text-sm font-bold rounded-full">
                         {regulation.code}
@@ -197,7 +197,7 @@ const RegulationsPage: React.FC = () => {
                         </Link>
                         <Link
                           to={`/regulations/edit/${regulation.id}`}
-                          className="text-emerald-600 hover:text-emerald-900 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-emerald-50 transition-all duration-200"
+                          className="text-blue-600 hover:text-blue-900 flex items-center gap-1 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-all duration-200"
                         >
                           <Edit className="h-4 w-4" />
                           Sửa
@@ -219,7 +219,7 @@ const RegulationsPage: React.FC = () => {
         </div>
 
         {filteredRegulations.length === 0 && (
-          <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-blue-100">
+          <div className="bg-white rounded-2xl shadow-xl p-12 text-center border border-blue-200">
             <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
               <FileText className="h-8 w-8 text-gray-400" />
             </div>
@@ -227,7 +227,7 @@ const RegulationsPage: React.FC = () => {
             <p className="text-gray-600 mb-6">Không có quy định nào phù hợp với tìm kiếm của bạn.</p>
             <Link
               to="/regulations/add"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:from-blue-700 hover:to-cyan-600 transition-colors"
             >
               <FilePlus2 className="h-4 w-4 mr-2" />
               Tạo quy định đầu tiên

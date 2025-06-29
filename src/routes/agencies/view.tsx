@@ -67,16 +67,16 @@ const ViewAgencyPage: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-6 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100 p-6 flex items-center justify-center">
         <div className="max-w-5xl w-full mx-auto">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 flex items-center justify-center shadow-lg">
               <Users className="h-8 w-8 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold text-gray-900 drop-shadow uppercase tracking-wide">Chi tiết đại lý</h1>
-              <p className="text-gray-600 text-base mt-1">Xem thông tin chi tiết và thao tác với đại lý {agency.code}.</p>
+              <h1 className="text-3xl font-extrabold text-blue-900 drop-shadow uppercase tracking-wide">Chi tiết đại lý</h1>
+              <p className="text-blue-700 text-base mt-1">Xem thông tin chi tiết và thao tác với đại lý {agency.code}.</p>
             </div>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -115,11 +115,11 @@ const ViewAgencyPage: React.FC = () => {
                 </div>
               </div>
               {/* Contact Info */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-100">
-                <h2 className="text-xl font-bold text-green-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-green-500"/>Thông tin liên hệ</h2>
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-100">
+                <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-blue-500"/>Thông tin liên hệ</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-green-700 font-semibold mb-1">Số điện thoại</label>
+                    <label className="block text-blue-700 font-semibold mb-1">Số điện thoại</label>
                     <div className="bg-white px-4 py-2 rounded-lg border">
                       <a href={`tel:${agency.phone}`} className="text-blue-600 hover:text-blue-800 font-semibold">
                         {agency.phone}
@@ -127,7 +127,7 @@ const ViewAgencyPage: React.FC = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-green-700 font-semibold mb-1">Email</label>
+                    <label className="block text-blue-700 font-semibold mb-1">Email</label>
                     <div className="bg-white px-4 py-2 rounded-lg border">
                       <a href={`mailto:${agency.email}`} className="text-blue-600 hover:text-blue-800 font-semibold">
                         {agency.email}
@@ -137,23 +137,23 @@ const ViewAgencyPage: React.FC = () => {
                 </div>
               </div>
               {/* Financial Info */}
-              <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 border-2 border-yellow-100">
-                <h2 className="text-xl font-bold text-yellow-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-yellow-500"/>Thông tin tài chính</h2>
+              <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-100">
+                <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-blue-500"/>Thông tin tài chính</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-yellow-700 font-semibold mb-1">Nợ hiện tại</label>
+                    <label className="block text-blue-700 font-semibold mb-1">Nợ hiện tại</label>
                     <p className="bg-white px-4 py-2 rounded-lg border text-red-600 font-bold text-lg">
                       {agency.debt?.toLocaleString('vi-VN')} VND
                     </p>
                   </div>
                   <div>
-                    <label className="block text-yellow-700 font-semibold mb-1">Hạn mức tín dụng</label>
+                    <label className="block text-blue-700 font-semibold mb-1">Hạn mức tín dụng</label>
                     <p className="bg-white px-4 py-2 rounded-lg border text-green-600 font-bold text-lg">
                       {agency.creditLimit?.toLocaleString('vi-VN')} VND
                     </p>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-yellow-700 font-semibold mb-1">Tình trạng nợ</label>
+                    <label className="block text-blue-700 font-semibold mb-1">Tình trạng nợ</label>
                     <div className="bg-white px-4 py-2 rounded-lg border">
                       <div className="flex items-center justify-between">
                         <span className="text-gray-700">Đã sử dụng:</span>
@@ -181,8 +181,8 @@ const ViewAgencyPage: React.FC = () => {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* Status Card */}
-              <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-gray-500"/>Trạng thái</h3>
+              <div className="bg-white rounded-2xl p-6 border-2 border-blue-100 shadow-lg">
+                <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-blue-500"/>Trạng thái</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600 font-medium">Tình trạng:</span>
@@ -196,8 +196,8 @@ const ViewAgencyPage: React.FC = () => {
                 </div>
               </div>
               {/* Dates Card */}
-              <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-gray-500"/>Thời gian</h3>
+              <div className="bg-white rounded-2xl p-6 border-2 border-blue-100 shadow-lg">
+                <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-blue-500"/>Thời gian</h3>
                 <div className="space-y-3">
                   <div>
                     <label className="block text-gray-600 font-medium mb-1">Ngày tạo</label>
@@ -210,12 +210,12 @@ const ViewAgencyPage: React.FC = () => {
                 </div>
               </div>
               {/* Actions Card */}
-              <div className="bg-white rounded-2xl p-6 border-2 border-gray-100 shadow-lg">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-gray-500"/>Thao tác</h3>
+              <div className="bg-white rounded-2xl p-6 border-2 border-blue-100 shadow-lg">
+                <h3 className="text-lg font-bold text-blue-800 mb-4 flex items-center gap-2"><Info className="h-5 w-5 text-blue-500"/>Thao tác</h3>
                 <div className="space-y-3">
                   <Link
                     to={`/agencies/edit/${agency.id}`}
-                    className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold gap-2"
+                    className="w-full flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-400 text-white rounded-lg hover:scale-105 hover:shadow-xl transition-all font-semibold gap-2"
                   >
                     <Edit className="h-4 w-4 mr-2" /> Chỉnh sửa
                   </Link>
