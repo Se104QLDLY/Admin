@@ -1,21 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useLoginForm } from '../../hooks/useLoginForm';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import { loginSchema } from '../api/auth.api';
+import type { LoginCredentials } from '../api/auth.api';
 
-const Login: React.FC = () => {
+export const LoginPage = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+
   const {
-    loginType,
-    setLoginType,
-    isLoggedIn,
-    showAccountMenu,
-    userName,
-    toggleAccountMenu,
-    handleLogout,
     register,
     handleSubmit,
-    errors,
-    onSubmit
-  } = useLoginForm();
+    formState: { errors, isSubmitting },
+  } = useForm<LoginCredentials>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const onSubmit = async (data: LoginCredentials) => {
+    try {
+      setError(null);
+      await login(data);
+      navigate('/'); // Chuyển hướng đến trang chủ sau khi đăng nhập thành công
+    } catch (err) {
+      setError('Tên đăng nhập hoặc mật khẩu không đúng.');
+      console.error(err);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
@@ -57,11 +70,15 @@ const Login: React.FC = () => {
               <span className="text-red-500 text-sm mt-1">{errors.password.message}</span>
             )}
           </div>
+
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+          
           <button
             type="submit"
-            className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-blue-700"
+            disabled={isSubmitting}
+            className="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all text-lg border-2 border-transparent hover:border-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Đăng nhập
+            {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
         </form>
         <div className="flex justify-between mt-6 text-sm">
@@ -72,5 +89,3 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
-export default Login;

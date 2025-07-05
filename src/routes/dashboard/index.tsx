@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
+import { getMonthlySales, getDebtReport, getAgenciesCount } from '../../api/dashboard.api';
+import type { MonthlySalesItem } from '../../api/dashboard.api';
 
 const DashboardPage: React.FC = () => {
-  // Mock data for charts
-  const monthlySales = [
-    { month: 'T1', amount: 25000000 },
-    { month: 'T2', amount: 32000000 },
-    { month: 'T3', amount: 28000000 },
-    { month: 'T4', amount: 35000000 },
-    { month: 'T5', amount: 42000000 },
-    { month: 'T6', amount: 45600000 },
-  ];
+  // Dashboard data state
+  const [monthlySales, setMonthlySales] = useState<MonthlySalesItem[]>([]);
+  const [totalAgencies, setTotalAgencies] = useState<number>(0);
+  const [totalDebt, setTotalDebt] = useState<number>(0);
+  const [debtOverdue, setDebtOverdue] = useState<number>(0);
 
   // Calculate max value for chart scaling
-  const maxSalesValue = Math.max(...monthlySales.map(item => item.amount));
+  const maxSalesValue = monthlySales.length
+    ? Math.max(...monthlySales.map(item => item.amount))
+    : 0;
+
+  // Fetch dashboard data on mount
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [agenciesCount, salesData, debtData] = await Promise.all([
+          getAgenciesCount(),
+          getMonthlySales(),
+          getDebtReport(),
+        ]);
+        setTotalAgencies(agenciesCount);
+        setMonthlySales(salesData);
+        const totalDebtAmount = debtData.reduce((sum, d) => sum + d.total_debt, 0);
+        setTotalDebt(totalDebtAmount);
+        const overdueAmount = debtData.reduce(
+          (sum, d) => sum + (d.aging_buckets['90+'] || 0),
+          0
+        );
+        setDebtOverdue(overdueAmount);
+      } catch (error) {
+        console.error('Failed to fetch dashboard stats', error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <DashboardLayout>
@@ -29,7 +54,7 @@ const DashboardPage: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-2xl font-bold text-blue-800 mb-2">Tổng đại lý</h3>
-            <span className="text-3xl font-extrabold text-blue-700">48</span>
+            <span className="text-3xl font-extrabold text-blue-700">{totalAgencies.toLocaleString()}</span>
             <div className="flex items-center mt-1">
               <span className="text-xs text-green-600">+3 trong tháng này</span>
             </div>
@@ -42,7 +67,13 @@ const DashboardPage: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-2xl font-bold text-green-800 mb-2">Doanh số tháng</h3>
-            <span className="text-3xl font-extrabold text-green-700">₫45.6M</span>
+            <span className="text-3xl font-extrabold text-green-700">
+              {monthlySales.length
+                ? new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(
+                    monthlySales[monthlySales.length - 1].amount
+                  )
+                : '-'}
+            </span>
             <div className="flex items-center mt-1">
               <span className="text-xs text-green-600">+8.5% so với tháng trước</span>
             </div>
@@ -55,9 +86,15 @@ const DashboardPage: React.FC = () => {
               </svg>
             </div>
             <h3 className="text-2xl font-bold text-red-800 mb-2">Tổng công nợ</h3>
-            <span className="text-3xl font-extrabold text-red-700">₫87.5M</span>
+            <span className="text-3xl font-extrabold text-red-700">
+              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(
+                totalDebt
+              )}
+            </span>
             <div className="flex items-center mt-1">
-              <span className="text-xs text-red-600">Đã quá hạn: ₫12.2M</span>
+              <span className="text-xs text-red-600">
+                Đã quá hạn: {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(debtOverdue)}
+              </span>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './home';
 import About from './about';
-import Login from './auth/Login';
+import { LoginPage } from '../pages/LoginPage';
 import Register from './auth/Register';
 import ForgotPassword from './auth/ForgotPassword';
 import DashboardPage from './dashboard';
@@ -23,6 +23,7 @@ import ViewAgencyPage from './agencies/view';
 import EditAgencyPage from './agencies/edit';
 import AgencyPage from './agencies/index';
 import AdminReportsPage from './reports';
+import { ProtectedRoute } from './ProtectedRoute';
 
 const AppRoutes = () => {
   return (
@@ -31,28 +32,30 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/landing" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       
-      {/* Admin routes */}
-      <Route path="/admin" element={<DashboardPage />} />
-      <Route path="/reports" element={<AdminReportsPage />} />
-      <Route path="/reports/add" element={<AddReportPage />} />
-      <Route path="/reports/view/:id" element={<ReportView />} />
-      <Route path="/reports/edit/:id" element={<ReportEdit />} />
-      <Route path="/account" element={<AccountPage />} />
-      <Route path="/account/add" element={<AddAccountPage />} />
-      <Route path="/account/view/:id" element={<AccountView />} />
-      <Route path="/account/edit/:id" element={<AccountEdit />} />
-      <Route path="/regulations" element={<RegulationsPage />} />
-      <Route path="/regulations/add" element={<AddRegulationPage />} />
-      <Route path="/regulations/view/:id" element={<ViewRegulationPage />} />
-      <Route path="/regulations/edit/:id" element={<EditRegulationPage />} />
-      <Route path="/agencies/add" element={<AddAgencyPage />} />
-      <Route path="/agencies/view/:id" element={<ViewAgencyPage />} />
-      <Route path="/agencies/edit/:id" element={<EditAgencyPage />} />
-      <Route path="/agencies" element={<AgencyPage />} />
+      {/* Admin routes duoc protect */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/admin" element={<DashboardPage />} />
+        <Route path="/reports" element={<AdminReportsPage />} />
+        <Route path="/reports/add" element={<AddReportPage />} />
+        <Route path="/reports/view/:id" element={<ReportView />} />
+        <Route path="/reports/edit/:id" element={<ReportEdit />} />
+        <Route path="/account" element={<AccountPage />} />
+        <Route path="/account/add" element={<AddAccountPage />} />
+        <Route path="/account/view/:id" element={<AccountView />} />
+        <Route path="/account/edit/:id" element={<AccountEdit />} />
+        <Route path="/regulations" element={<RegulationsPage />} />
+        <Route path="/regulations/add" element={<AddRegulationPage />} />
+        <Route path="/regulations/view/:id" element={<ViewRegulationPage />} />
+        <Route path="/regulations/edit/:id" element={<EditRegulationPage />} />
+        <Route path="/agencies/add" element={<AddAgencyPage />} />
+        <Route path="/agencies/view/:id" element={<ViewAgencyPage />} />
+        <Route path="/agencies/edit/:id" element={<EditAgencyPage />} />
+        <Route path="/agencies" element={<AgencyPage />} />
+      </Route>
       
       {/* 404 page */}
       <Route path="*" element={<NotFound />} />
