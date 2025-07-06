@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
 import { 
@@ -9,7 +9,6 @@ import {
   AlertCircle, 
   XCircle,
   Calendar,
-  Clock,
   User,
   Shield,
   Crown,
@@ -17,6 +16,7 @@ import {
   Phone,
   MapPin
 } from 'lucide-react';
+import { getUser } from '../../api/user.api';
 
 interface Account {
   id: string;
@@ -29,26 +29,40 @@ interface Account {
   status: 'Hoạt động' | 'Tạm khóa' | 'Ngừng hoạt động';
   createdDate: string;
   updatedDate: string;
-  lastLogin?: string;
 }
 
 const ViewAccountPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [account, setAccount] = useState<Account | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data - trong thực tế sẽ fetch từ API
-  const account: Account = {
-    id: id || '1',
-    username: 'admin',
-    fullName: 'Quản trị viên hệ thống',
-    email: 'admin@company.com',
-    phone: '0123456789',
-    address: '123 Đường ABC, Quận 1, TP.HCM',
-    role: 'Admin',
-    status: 'Hoạt động',
-    createdDate: '2024-01-01',
-    updatedDate: '2024-01-20',
-    lastLogin: '2024-01-20 14:30:00'
-  };
+  useEffect(() => {
+    const fetchAccount = async () => {
+      setLoading(true);
+      try {
+        const data = await getUser(Number(id));
+        setAccount({
+          id: data.user_id.toString(),
+          username: data.username || '',
+          fullName: data.full_name || '',
+          email: data.email || '',
+          phone: data.phone_number || '',
+          address: data.address || '',
+          role: data.account_role === 'admin' ? 'Admin' : data.account_role === 'staff' ? 'Staff' : 'Agency',
+          status: 'Hoạt động',
+          createdDate: data.created_at,
+          updatedDate: data.updated_at,
+        });
+      } catch (err) {
+        console.error('Error fetching account detail:', err);
+        setError('Lỗi khi tải chi tiết tài khoản');
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (id) fetchAccount();
+  }, [id]);
 
   const getRoleColor = (role: string) => {
     switch (role) {
@@ -85,6 +99,26 @@ const ViewAccountPage: React.FC = () => {
       default: return <AlertCircle className="h-4 w-4" />;
     }
   };
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <p>Đang tải...</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+  if (error) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center">
+          <p className="text-red-500">{error}</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+  if (!account) return null;
 
   return (
     <DashboardLayout>
@@ -231,17 +265,6 @@ const ViewAccountPage: React.FC = () => {
                 <div>
                   <label className="block text-gray-600 font-medium mb-1">Cập nhật lần cuối</label>
                   <p className="text-gray-800">{account.updatedDate}</p>
-                </div>
-                <div>
-                  <label className="block text-gray-600 font-medium mb-1">Đăng nhập cuối</label>
-                  {account.lastLogin ? (
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-3 w-3 text-gray-400" />
-                      <p className="text-gray-800">{account.lastLogin}</p>
-                    </div>
-                  ) : (
-                    <p className="text-gray-400">Chưa đăng nhập</p>
-                  )}
                 </div>
               </div>
             </div>

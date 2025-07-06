@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
 import { 
@@ -14,6 +14,7 @@ import {
   Shield,
   ArrowLeft
 } from 'lucide-react';
+import { getRegulations } from '../../api/regulation.api';
 
 interface Regulation {
   id: string;
@@ -29,38 +30,56 @@ const RegulationsPage: React.FC = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [regulationToDelete, setRegulationToDelete] = useState<Regulation | null>(null);
 
-  // Mock data
-  const [regulations, setRegulations] = useState<Regulation[]>([
-    {
-      id: '1',
-      code: 'QD001',
-      title: 'Quy định về mức nợ tối đa của đại lý',
-      description: 'Quy định mức nợ tối đa mà một đại lý có thể có đối với công ty là 10,000,000 VND',
-      status: 'Hiệu lực',
-      createdDate: '15/01/2024'
-    },
-    {
-      id: '2',
-      code: 'QD002',
-      title: 'Quy định về loại hàng hóa được phép nhập',
-      description: 'Danh sách các loại hàng hóa được phép nhập và xuất trong hệ thống',
-      status: 'Hiệu lực',
-      createdDate: '10/01/2024'
-    },
-    {
-      id: '3',
-      code: 'QD003',
-      title: 'Quy định về thời hạn thanh toán',
-      description: 'Thời hạn thanh toán tối đa cho các giao dịch là 30 ngày',
-      status: 'Hết hiệu lực',
-      createdDate: '20/12/2023'
-    }
-  ]);
+  // Regulations loaded from API
+  const [regulations, setRegulations] = useState<Regulation[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const filteredRegulations = regulations.filter(regulation => 
     regulation.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     regulation.code.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Fetch regulations on mount
+  useEffect(() => {
+    const fetchRegs = async () => {
+      setLoading(true);
+      try {
+        const data = await getRegulations();
+        const mapped = data.map(item => ({
+          id: item.regulation_key,
+          code: item.regulation_key,
+          title: item.regulation_value,
+          description: item.description,
+          status: 'Hiệu lực',
+          createdDate: new Date(item.updated_at).toLocaleDateString('vi-VN'),
+        }));
+        setRegulations(mapped);
+      } catch (err) {
+        console.error('Error loading regulations:', err);
+        setError('Lỗi khi tải quy định');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRegs();
+  }, []);
+
+  // Show loading or error
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center">Đang tải quy định...</div>
+      </DashboardLayout>
+    );
+  }
+  if (error) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center text-red-500">{error}</div>
+      </DashboardLayout>
+    );
+  }
 
   const handleDeleteClick = (regulation: Regulation) => {
     setRegulationToDelete(regulation);

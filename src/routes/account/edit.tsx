@@ -14,6 +14,7 @@ import {
   Crown,
   User
 } from 'lucide-react';
+import { getUser, updateUser } from '../../api/user.api';
 
 interface AccountFormData {
   username: string;
@@ -70,26 +71,19 @@ const EditAccountPage: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  // Mock data - trong thực tế sẽ fetch từ API
-  const mockAccount: AccountFormData = {
-    username: 'admin',
-    fullName: 'Quản trị viên hệ thống',
-    email: 'admin@company.com',
-    phone: '0123456789',
-    address: '123 Đường ABC, Quận 1, TP.HCM',
-    role: 'Admin',
-    status: 'Hoạt động',
-  };
-
   useEffect(() => {
-    // Simulate loading data from API
     const loadAccount = async () => {
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        // Set form data
-        reset(mockAccount);
+        const data = await getUser(Number(id));
+        reset({
+          username: data.username || '',
+          fullName: data.full_name || '',
+          email: data.email || '',
+          phone: data.phone_number || '',
+          address: data.address || '',
+          role: data.account_role === 'admin' ? 'Admin' : data.account_role === 'staff' ? 'Staff' : 'Agency',
+          status: 'Hoạt động',
+        });
       } catch (error) {
         console.error('Error loading account:', error);
         alert('Có lỗi xảy ra khi tải thông tin tài khoản!');
@@ -103,11 +97,12 @@ const EditAccountPage: React.FC = () => {
 
   const onSubmit = async (data: AccountFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Updated account data:', data);
-      
-      // Show success message and redirect
+      await updateUser(Number(id), {
+        full_name: data.fullName,
+        email: data.email,
+        phone_number: data.phone,
+        address: data.address,
+      });
       alert('Tài khoản đã được cập nhật thành công!');
       navigate('/account');
     } catch (error) {

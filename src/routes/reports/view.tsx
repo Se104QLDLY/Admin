@@ -1,47 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { getReportDetail } from '../../api/report.api';
+import type { ReportDetailItem } from '../../api/report.api';
 import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
 import { FileText, User, Calendar, BadgeCheck, Layers, ArrowLeft, DollarSign, Info, ClipboardList, CheckCircle, AlertCircle } from 'lucide-react';
 
 const ReportView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [reportData, setReportData] = useState<ReportDetailItem | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Mock data - in a real app, this would be fetched from API based on ID
-  const reportData = {
-    id: id || 'BC001',
-    type: 'Doanh thu',
-    reportDate: '15/01/2024',
-    period: 'Hàng tháng',
-    amount: 1250000000,
-    description: 'Báo cáo doanh số tháng 1/2024',
-    details: `Báo cáo tổng hợp doanh số bán hàng trong tháng 1/2024:
+  useEffect(() => {
+    if (!id) return;
+    setLoading(true);
+    getReportDetail(id)
+      .then(data => setReportData(data))
+      .catch(() => setError('Lỗi khi tải chi tiết báo cáo'))
+      .finally(() => setLoading(false));
+  }, [id]);
 
-1. Tổng quan:
-   - Tổng doanh thu: 1,250,000,000 VND
-   - Tăng trưởng so với tháng trước: +15%
-   - Số đơn hàng: 245 đơn
-   - Giá trị đơn hàng trung bình: 5,102,041 VND
-
-2. Phân tích theo sản phẩm:
-   - Sản phẩm A: 450,000,000 VND (36%)
-   - Sản phẩm B: 320,000,000 VND (25.6%)
-   - Sản phẩm C: 280,000,000 VND (22.4%)
-   - Các sản phẩm khác: 200,000,000 VND (16%)
-
-3. Phân tích theo khu vực:
-   - Khu vực miền Nam: 650,000,000 VND (52%)
-   - Khu vực miền Bắc: 400,000,000 VND (32%)
-   - Khu vực miền Trung: 200,000,000 VND (16%)
-
-4. Nhận xét và đề xuất:
-   - Doanh số tăng trưởng tích cực so với tháng trước
-   - Sản phẩm A tiếp tục dẫn đầu về doanh thu
-   - Cần tăng cường marketing tại khu vực miền Trung
-   - Đề xuất ra mắt chương trình khuyến mãi cho sản phẩm mới`,
-    creator: 'Nguyễn Văn A',
-    createdDate: '15/01/2024',
-    status: 'Đã duyệt'
-  };
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center"><p>Đang tải chi tiết báo cáo...</p></div>
+      </DashboardLayout>
+    );
+  }
+  if (error) {
+    return (
+      <DashboardLayout>
+        <div className="min-h-screen flex items-center justify-center"><p className="text-red-500">{error}</p></div>
+      </DashboardLayout>
+    );
+  }
+  if (!reportData) {
+    return null;
+  }
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('vi-VN').format(amount) + ' VND';
@@ -100,17 +95,17 @@ const ReportView: React.FC = () => {
               <div className="flex items-center gap-3">
                 <User className="h-5 w-5 text-blue-500" />
                 <span className="font-semibold text-gray-700">Người tạo:</span>
-                <span className="text-gray-900 font-bold">{reportData.creator}</span>
+                <span className="text-gray-900 font-bold">{reportData.created_by_name}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-blue-500" />
                 <span className="font-semibold text-gray-700">Ngày tạo:</span>
-                <span className="text-gray-900 font-bold">{reportData.createdDate}</span>
+                <span className="text-gray-900 font-bold">{new Date(reportData.created_at).toLocaleString('vi-VN')}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Calendar className="h-5 w-5 text-blue-500" />
                 <span className="font-semibold text-gray-700">Ngày báo cáo:</span>
-                <span className="text-gray-900 font-bold">{reportData.reportDate}</span>
+                <span className="text-gray-900 font-bold">{reportData.report_date}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Info className="h-5 w-5 text-blue-500" />
@@ -143,7 +138,7 @@ const ReportView: React.FC = () => {
             <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center gap-2"><ClipboardList className="h-5 w-5 text-blue-500"/>Chi tiết báo cáo</h2>
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 overflow-x-auto">
               <pre className="text-gray-700 whitespace-pre-wrap font-mono text-base leading-relaxed">
-                {reportData.details}
+                {JSON.stringify(reportData.data, null, 2)}
               </pre>
             </div>
           </div>

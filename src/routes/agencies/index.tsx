@@ -1,23 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { Users, UserPlus, Search, CheckCircle, XCircle, AlertCircle, Trash2, Edit, Eye, BadgeCheck, Info, ShieldCheck } from 'lucide-react';
 import { useToast } from '../../components/common/ToastContext';
-
-const mockAgencies = [
-  { id: '1', name: 'Đại lý Minh Anh', code: 'DL001', address: '123 Nguyễn Văn Linh, Q.7, TP.HCM', phone: '0901234567', email: 'minhanh@example.com', approved: false, maxDebt: null },
-  { id: '2', name: 'Đại lý Thành Công', code: 'DL002', address: '456 Lê Lợi, Q.1, TP.HCM', phone: '0902345678', email: 'thanhcong@example.com', approved: true, maxDebt: 20000000 },
-  { id: '3', name: 'Đại lý Hồng Phúc', code: 'DL003', address: '789 Trần Hưng Đạo, Q.5, TP.HCM', phone: '0903456789', email: 'hongphuc@example.com', approved: false, maxDebt: null },
-];
+import { getAgencies, deleteAgency } from '../../api/agency.api';
+import type { AgencyItem } from '../../api/agency.api';
+import { getStaffList } from '../../api/staff.api';
+import type { StaffItem } from '../../api/staff.api';
+import { assignAgencyToStaff, getStaffAssignments } from '../../api/staffAgency.api';
 
 const AgencyPage: React.FC = () => {
-  const [agencies, setAgencies] = useState(mockAgencies);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedAgency, setSelectedAgency] = useState<any>(null);
-  const [maxDebt, setMaxDebt] = useState('');
+  const [agencies, setAgencies] = useState<AgencyItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [selectedAgencyForAssign, setSelectedAgencyForAssign] = useState<AgencyItem | null>(null);
+  const [staffList, setStaffList] = useState<StaffItem[]>([]);
+  const [selectedStaffId, setSelectedStaffId] = useState<number | null>(null);
   const [deleteId, setDeleteId] = useState<string|null>(null);
   const [search, setSearch] = useState('');
   const toast = useToast();
+  const [agencyManagers, setAgencyManagers] = useState<Record<number, string[]>>({});
+
+  // Fetch agencies, staff list, and assignments from backend
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const [agList, staffItems, assignments] = await Promise.all([
+          getAgencies(),
+          getStaffList(),
+          getStaffAssignments()
+        ]);
+        setAgencies(agList);
+        setStaffList(staffItems);
+        // Build name map and manager mapping
+        const nameMap = Object.fromEntries(staffItems.map(s => [s.id, s.name]));
+        const managerMap: Record<number, string[]> = {};
+        assignments.forEach(a => {
+          const name = nameMap[a.staff_id] || `Staff ${a.staff_id}`;
+          if (!managerMap[a.agency]) managerMap[a.agency] = [];
+          managerMap[a.agency].push(name);
+        });
+        setAgencyManagers(managerMap);
+      } catch (error) {
+        toast.show('Không thể tải dữ liệu đại lý', 'error');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   // Lọc danh sách theo từ khóa
   const filteredAgencies = agencies.filter(a =>
@@ -28,27 +60,45 @@ const AgencyPage: React.FC = () => {
     a.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const openApproveModal = (agency: any) => {
-    setSelectedAgency(agency);
-    setMaxDebt('');
-    setShowModal(true);
+  const openAssignModal = (agency: AgencyItem) => {
+    setSelectedAgencyForAssign(agency);
+    setSelectedStaffId(null);
+    // Load staff list from API
+    getStaffList()
+      .then(list => setStaffList(list))
+      .catch(() => toast.show('Không thể tải danh sách nhân viên', 'error'));
+    setShowAssignModal(true);
   };
-  const closeModal = () => {
-    setShowModal(false);
-    setSelectedAgency(null);
-    setMaxDebt('');
+  const closeAssignModal = () => {
+    setShowAssignModal(false);
+    setSelectedAgencyForAssign(null);
   };
-  const handleApprove = () => {
-    setAgencies(agencies.map(a => a.id === selectedAgency.id ? { ...a, approved: true, maxDebt: Number(maxDebt) } : a));
-    closeModal();
-    toast.show('Phê duyệt đại lý thành công!', 'success');
+  const handleAssign = async () => {
+    if (!selectedStaffId || !selectedAgencyForAssign) {
+      toast.show('Vui lòng chọn nhân viên', 'warning');
+      return;
+    }
+    try {
+      await assignAgencyToStaff(selectedAgencyForAssign.id, selectedStaffId);
+      toast.show(`Đã gán đại lý ${selectedAgencyForAssign.name} cho nhân viên thành công!`, 'success');
+      closeAssignModal();
+    } catch {
+      toast.show('Không thể gán đại lý', 'error');
+    }
   };
   const confirmDelete = (id: string) => setDeleteId(id);
   const cancelDelete = () => setDeleteId(null);
-  const handleDelete = () => {
-    setAgencies(agencies.filter(a => a.id !== deleteId));
-    setDeleteId(null);
-    toast.show('Xóa đại lý thành công!', 'success');
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await deleteAgency(Number(deleteId));
+      setAgencies(prev => prev.filter(a => a.id !== deleteId));
+      toast.show('Xóa đại lý thành công!', 'success');
+    } catch {
+      toast.show('Không thể xóa đại lý', 'error');
+    } finally {
+      setDeleteId(null);
+    }
   };
 
   // Thống kê
@@ -124,7 +174,7 @@ const AgencyPage: React.FC = () => {
                   <th className="py-3 px-4 text-left">Địa chỉ</th>
                   <th className="py-3 px-4 text-left">Số điện thoại</th>
                   <th className="py-3 px-4 text-left">Email</th>
-                  <th className="py-3 px-4 text-left">Trạng thái</th>
+                  <th className="py-3 px-4 text-left">Nhân viên quản lý</th>
                   <th className="py-3 px-4 text-left">Thao tác</th>
                 </tr>
               </thead>
@@ -141,13 +191,7 @@ const AgencyPage: React.FC = () => {
                     <td className="px-4 py-3 text-gray-800">{agency.address}</td>
                     <td className="px-4 py-3 text-gray-800">{agency.phone}</td>
                     <td className="px-4 py-3 text-gray-800">{agency.email}</td>
-                    <td className="px-4 py-3">
-                      {agency.approved ? (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full"><BadgeCheck className="h-4 w-4"/>Đã duyệt</span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 text-orange-800 text-xs font-semibold rounded-full"><AlertCircle className="h-4 w-4"/>Chưa duyệt</span>
-                      )}
-                    </td>
+                    <td className="px-4 py-3 text-gray-800">{agencyManagers[agency.id]?.join(', ') || '-'}</td>
                     <td className="px-4 py-3 flex gap-2">
                       <Link to={`/agencies/view/${agency.id}`} className="p-2 rounded-full bg-blue-50 hover:bg-blue-200 text-blue-600 hover:text-blue-900 transition-colors" title="Xem">
                         <Eye className="h-5 w-5" />
@@ -155,11 +199,9 @@ const AgencyPage: React.FC = () => {
                       <Link to={`/agencies/edit/${agency.id}`} className="p-2 rounded-full bg-green-50 hover:bg-green-200 text-green-600 hover:text-green-900 transition-colors" title="Sửa">
                         <Edit className="h-5 w-5" />
                       </Link>
-                      {!agency.approved && (
-                        <button onClick={() => openApproveModal(agency)} className="p-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-colors" title="Phê duyệt">
-                          <CheckCircle className="h-5 w-5" />
-                        </button>
-                      )}
+                      <button onClick={() => openAssignModal(agency)} className="p-2 rounded-full bg-orange-500 hover:bg-orange-600 text-white transition-colors" title="Gán đại lý cho nhân viên">
+                        <UserPlus className="h-5 w-5" />
+                      </button>
                       <button onClick={() => confirmDelete(agency.id)} className="p-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-colors" title="Xóa">
                         <Trash2 className="h-5 w-5" />
                       </button>
@@ -171,39 +213,27 @@ const AgencyPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Modal phê duyệt */}
-        {showModal && (
-          <div className="fixed inset-0 bg-gradient-to-br from-blue-100/80 via-cyan-100/80 to-blue-200/80 flex items-center justify-center z-50 animate-fade-in" onClick={closeModal}>
-            <div className="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl border-2 border-blue-200 relative animate-scale-in" onClick={e => e.stopPropagation()}>
-              <div className="flex items-center gap-3 mb-6">
-                <ShieldCheck className="h-9 w-9 text-blue-500 animate-bounce-slow" />
-                <h2 className="text-2xl font-bold text-blue-800 tracking-wide">Phê duyệt đại lý</h2>
+        {/* Assign Agency Modal */}
+        {showAssignModal && (
+          <div className="fixed inset-0 bg-transparent backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+              <h3 className="text-lg font-bold mb-4">Gán đại lý cho nhân viên</h3>
+              <div className="mb-4">
+                <label className="block font-semibold mb-2">Chọn nhân viên:</label>
+                <select
+                  value={selectedStaffId ?? ''}
+                  onChange={e => setSelectedStaffId(Number(e.target.value))}
+                  className="w-full px-4 py-2 border-2 border-gray-200 rounded-xl"
+                >
+                  <option value="">-- Chọn nhân viên --</option>
+                  {staffList.map(staff => (
+                    <option key={staff.id} value={staff.id}>{staff.name}</option>
+                  ))}
+                </select>
               </div>
-              <div className="space-y-2 mb-6">
-                <div className="flex items-center gap-2 text-blue-700 font-semibold">
-                  <Users className="h-5 w-5" /> {selectedAgency?.name}
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <BadgeCheck className="h-5 w-5 text-blue-400" /> Mã: <span className="font-bold">{selectedAgency?.code}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Info className="h-5 w-5 text-blue-400" /> Email: <span className="font-medium">{selectedAgency?.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-700">
-                  <Info className="h-5 w-5 text-blue-400" /> SĐT: <span className="font-medium">{selectedAgency?.phone}</span>
-                </div>
-              </div>
-              <div className="mb-6">
-                <label className="block font-semibold mb-2 text-blue-700">Mức công nợ tối đa (VNĐ)</label>
-                <input type="number" min={0} value={maxDebt} onChange={e => setMaxDebt(e.target.value)} className="w-full px-4 py-3 border-2 border-blue-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg transition-all shadow-sm" placeholder="Nhập mức công nợ tối đa" />
-              </div>
-              <div className="flex gap-3 mt-8">
-                <button onClick={closeModal} className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-semibold flex items-center justify-center gap-2 shadow-md">
-                  <XCircle className="h-5 w-5" /> Hủy
-                </button>
-                <button onClick={handleApprove} disabled={!maxDebt} className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-500 text-white rounded-lg hover:from-blue-700 hover:to-indigo-600 transition-all font-bold flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 animate-pulse-on-hover" style={{transition: 'transform 0.15s'}}>
-                  <CheckCircle className="h-5 w-5 animate-bounce" /> Phê duyệt & kích hoạt
-                </button>
+              <div className="flex gap-3 justify-end">
+                <button onClick={closeAssignModal} className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg">Hủy</button>
+                <button onClick={handleAssign} className="px-4 py-2 bg-orange-500 text-white rounded-lg">Gán</button>
               </div>
             </div>
           </div>

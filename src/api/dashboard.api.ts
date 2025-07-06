@@ -30,10 +30,23 @@ export const getMonthlySales = async (): Promise<MonthlySalesItem[]> => {
 
 // Fetch debt report data
 export const getDebtReport = async (): Promise<DebtReportItem[]> => {
-  // Backend may return a single object or an array; normalize to array
-  const response = await axiosClient.get<DebtReportItem | DebtReportItem[]>('/finance/debts/aging/');
-  const data = response.data;
-  return Array.isArray(data) ? data : [data];
+  const response = await axiosClient.get<any>('/finance/debts/aging/');
+  const agingResponse = response.data;
+  const agencies = agingResponse.agencies || [];
+  return agencies.map((item: any): DebtReportItem => {
+    const buckets: DebtAgingBuckets = {
+      '0-30': item.aging_bucket === '0-30' ? item.debt_amount : 0,
+      '31-60': item.aging_bucket === '31-60' ? item.debt_amount : 0,
+      '61-90': item.aging_bucket === '61-90' ? item.debt_amount : 0,
+      '90+': item.aging_bucket === '90+' ? item.debt_amount : 0,
+    };
+    return {
+      agency_id: item.agency_id,
+      agency_name: item.agency_name,
+      total_debt: item.debt_amount,
+      aging_buckets: buckets,
+    };
+  });
 };
 
 // Fetch total number of agencies

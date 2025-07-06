@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
 import { 
@@ -16,8 +16,8 @@ import {
   Crown,
   User,
   Calendar,
-  Clock
 } from 'lucide-react';
+import { getUsers, deleteUser } from '../../api/user.api';
 
 interface Account {
   id: string;
@@ -28,7 +28,6 @@ interface Account {
   status: 'Hoạt động' | 'Tạm khóa' | 'Ngừng hoạt động';
   createdDate: string;
   updatedDate: string;
-  lastLogin?: string;
 }
 
 const AccountPage: React.FC = () => {
@@ -37,41 +36,36 @@ const AccountPage: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [accountToDelete, setAccountToDelete] = useState<Account | null>(null);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const [accounts, setAccounts] = useState<Account[]>([
-    {
-      id: '1',
-      username: 'admin',
-      fullName: 'Quản trị viên',
-      email: 'admin@company.com',
-      role: 'Admin',
-      status: 'Hoạt động',
-      createdDate: '2024-01-01',
-      updatedDate: '2024-01-20',
-      lastLogin: '2024-01-20'
-    },
-    {
-      id: '2',
-      username: 'staff01',
-      fullName: 'Nguyễn Văn A',
-      email: 'nvana@company.com',
-      role: 'Staff',
-      status: 'Hoạt động',
-      createdDate: '2024-01-05',
-      updatedDate: '2024-01-18',
-      lastLogin: '2024-01-18'
-    },
-    {
-      id: '3',
-      username: 'agency01',
-      fullName: 'Trần Thị B',
-      email: 'qlb@company.com',
-      role: 'Agency',
-      status: 'Tạm khóa',
-      createdDate: '2024-01-10',
-      updatedDate: '2024-01-15'
-    }
-  ]);
+  // Fetch accounts from API
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      setLoading(true);
+      try {
+        const data = await getUsers();
+        const mapped = data.map(u => ({
+          id: u.user_id.toString(),
+          username: u.username || '',
+          fullName: u.full_name || '',
+          email: u.email || '',
+          role: u.account_role === 'admin' ? 'Admin' : u.account_role === 'staff' ? 'Staff' : 'Agency',
+          status: 'Hoạt động',
+          createdDate: u.created_at,
+          updatedDate: u.updated_at,
+        }));
+        setAccounts(mapped);
+      } catch (err) {
+        console.error('Error fetching accounts:', err);
+        setError('Lỗi khi tải danh sách tài khoản');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAccounts();
+  }, []);
 
   const filteredAccounts = accounts.filter(account => {
     const matchesSearch = 
@@ -93,8 +87,8 @@ const AccountPage: React.FC = () => {
   const handleDeleteConfirm = async () => {
     if (accountToDelete) {
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Delete account via API
+        await deleteUser(Number(accountToDelete.id));
         
         // Remove from local state
         setAccounts(accounts.filter(a => a.id !== accountToDelete.id));
@@ -239,7 +233,6 @@ const AccountPage: React.FC = () => {
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Vai trò</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Trạng thái</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider hidden md:table-cell">Ngày tạo</th>
-                  <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider hidden xl:table-cell">Đăng nhập cuối</th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-blue-700 uppercase tracking-wider">Thao tác</th>
                 </tr>
               </thead>
@@ -278,16 +271,6 @@ const AccountPage: React.FC = () => {
                         <Calendar className="h-3 w-3 text-gray-400" />
                         {account.createdDate}
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden xl:table-cell">
-                      {account.lastLogin ? (
-                        <div className="flex items-center gap-1">
-                          <Clock className="h-3 w-3 text-gray-400" />
-                          {account.lastLogin}
-                        </div>
-                      ) : (
-                        <span className="text-gray-400">Chưa đăng nhập</span>
-                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex items-center gap-2">

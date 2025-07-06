@@ -14,6 +14,7 @@ import {
   Crown,
   User
 } from 'lucide-react';
+import { createUser } from '../../api/user.api';
 
 interface AccountFormData {
   username: string;
@@ -46,8 +47,8 @@ const schema = yup.object({
   password: yup
     .string()
     .required('Mật khẩu là bắt buộc')
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số'),
+    .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/, 'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường và 1 số'),
   confirmPassword: yup
     .string()
     .required('Xác nhận mật khẩu là bắt buộc')
@@ -84,16 +85,30 @@ const AddAccountPage: React.FC = () => {
 
   const onSubmit = async (data: AccountFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Account data:', data);
-      
+      // Call API to create user
+      await createUser({
+        username: data.username,
+        password: data.password,
+        confirm_password: data.confirmPassword,
+        full_name: data.fullName,
+        email: data.email,
+        phone_number: data.phone,
+        address: data.address,
+        account_role: data.role === 'Admin' ? 'admin' : data.role === 'Staff' ? 'staff' : 'agent',
+      });
+
       // Show success message and redirect
       alert('Tài khoản đã được tạo thành công!');
       navigate('/account');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating account:', error);
-      alert('Có lỗi xảy ra khi tạo tài khoản!');
+      // Show server validation errors if available
+      if (error.response?.data) {
+        console.error('Server response:', error.response.data);
+        alert('Lỗi từ server: ' + JSON.stringify(error.response.data));
+      } else {
+        alert('Có lỗi xảy ra khi tạo tài khoản!');
+      }
     }
   };
 

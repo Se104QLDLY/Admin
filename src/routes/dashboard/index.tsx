@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { DashboardLayout } from '../../components/layout/DashboardLayout';
 import { getMonthlySales, getDebtReport, getAgenciesCount } from '../../api/dashboard.api';
-import type { MonthlySalesItem } from '../../api/dashboard.api';
+import type { MonthlySalesItem, DebtReportItem } from '../../api/dashboard.api';
 
 const DashboardPage: React.FC = () => {
   // Dashboard data state
@@ -9,6 +9,7 @@ const DashboardPage: React.FC = () => {
   const [totalAgencies, setTotalAgencies] = useState<number>(0);
   const [totalDebt, setTotalDebt] = useState<number>(0);
   const [debtOverdue, setDebtOverdue] = useState<number>(0);
+  const [topDebtAgencies, setTopDebtAgencies] = useState<DebtReportItem[]>([]);
 
   // Calculate max value for chart scaling
   const maxSalesValue = monthlySales.length
@@ -33,6 +34,8 @@ const DashboardPage: React.FC = () => {
           0
         );
         setDebtOverdue(overdueAmount);
+        const sortedByDebt = [...debtData].sort((a, b) => b.total_debt - a.total_debt);
+        setTopDebtAgencies(sortedByDebt.slice(0, 5));
       } catch (error) {
         console.error('Failed to fetch dashboard stats', error);
       }
@@ -205,80 +208,42 @@ const DashboardPage: React.FC = () => {
           <div className="border border-gray-200 rounded-lg p-6">
             <h2 className="text-lg font-semibold mb-4">Top 5 đại lý có công nợ cao nhất</h2>
             <div className="space-y-4">
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-700 font-semibold">
-                  HG
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium">Đại lý Hậu Giang</h3>
-                    <span className="text-sm font-semibold">₫15.8M</span>
+              {topDebtAgencies.map((item) => {
+                const maxDebt = topDebtAgencies[0]?.total_debt || 0;
+                const percent = maxDebt ? (item.total_debt / maxDebt) * 100 : 0;
+                const agencyName = (item.agency_name || '').trim();
+                let code = '';
+                if (agencyName) {
+                  const initials = agencyName
+                    .split(/\s+/)
+                    .map(word => word[0] || '')
+                    .join('');
+                  code = initials.slice(0, 2).toUpperCase();
+                } else if (item.agency_id != null) {
+                  const idStr = String(item.agency_id);
+                  code = idStr.slice(-2).toUpperCase();
+                } else {
+                  code = '??';
+                }
+                return (
+                  <div key={item.agency_id} className="flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-700 font-semibold">
+                      {code}
+                    </div>
+                    <div className="ml-3 flex-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-medium">{item.agency_name}</h3>
+                        <span className="text-sm font-semibold">
+                          {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(item.total_debt)}
+                        </span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                        <div className="bg-red-600 h-2 rounded-full" style={{ width: `${percent}%` }}></div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div className="bg-red-600 h-2 rounded-full" style={{ width: '85%' }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-semibold">
-                  ĐN
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium">Đại lý Đồng Nai</h3>
-                    <span className="text-sm font-semibold">₫12.7M</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div className="bg-orange-600 h-2 rounded-full" style={{ width: '72%' }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-700 font-semibold">
-                  LA
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium">Đại lý Long An</h3>
-                    <span className="text-sm font-semibold">₫11.5M</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div className="bg-yellow-600 h-2 rounded-full" style={{ width: '65%' }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-700 font-semibold">
-                  BT
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium">Đại lý Bến Tre</h3>
-                    <span className="text-sm font-semibold">₫9.9M</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div className="bg-green-600 h-2 rounded-full" style={{ width: '58%' }}></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-semibold">
-                  ST
-                </div>
-                <div className="ml-3 flex-1">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium">Đại lý Sóc Trăng</h3>
-                    <span className="text-sm font-semibold">₫8.2M</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div className="bg-blue-600 h-2 rounded-full" style={{ width: '45%' }}></div>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </div>
