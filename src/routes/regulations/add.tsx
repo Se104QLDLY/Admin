@@ -11,6 +11,7 @@ import {
   Save, 
   AlertTriangle
 } from 'lucide-react';
+import { updateRegulation } from '../../api/regulation.api';
 
 interface RegulationFormData {
   code: string;
@@ -81,11 +82,18 @@ const AddRegulationPage: React.FC = () => {
 
   const onSubmit = async (data: RegulationFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Regulation data:', data);
-      
-      // Show success message and redirect
+      await updateRegulation(data.code, {
+        regulation_value: JSON.stringify({
+          title: data.title,
+          content: data.content,
+          effectiveDate: data.effectiveDate,
+          expiryDate: data.expiryDate,
+          category: data.category,
+          priority: data.priority,
+          status: data.status,
+        }),
+        description: data.description,
+      });
       alert('Quy định đã được thêm thành công!');
       navigate('/regulations');
     } catch (error) {

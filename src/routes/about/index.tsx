@@ -112,12 +112,12 @@ const About: React.FC = () => {
               >
                 Đăng ký ngay
               </Link>
-              <Link
-                to="/login"
+              <a
+                href="http://127.0.0.1:5179/"
                 className="inline-block px-8 py-3 border-2 border-white text-white rounded-xl hover:bg-white hover:text-blue-600 transition-all font-semibold text-lg"
               >
                 Đăng nhập
-              </Link>
+              </a>
             </div>
           </div>
         </section>

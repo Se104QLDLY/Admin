@@ -23,12 +23,12 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
 
         {/* Nút đăng nhập/đăng ký */}
         <div className="flex items-center space-x-4">
-          <Link
-            to="/login"
+          <a
+            href="http://127.0.0.1:5179/"
             className="px-4 py-2 text-white font-semibold hover:text-cyan-200 transition-colors rounded-lg hover:bg-blue-800/40"
           >
             Đăng nhập
-          </Link>
+          </a>
           <Link
             to="/register"
             className="px-4 py-2 bg-white text-blue-700 font-bold rounded-lg shadow hover:bg-cyan-100 hover:text-blue-900 transition-colors border-2 border-white hover:border-cyan-400"
