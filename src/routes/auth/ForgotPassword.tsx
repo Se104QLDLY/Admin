@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { navigateToLogin } from '../../utils/navigation';
 
 interface ForgotPasswordInputs {
   email: string;
@@ -45,12 +45,12 @@ const ForgotPassword: React.FC = () => {
               Vui lòng kiểm tra hộp thư đến (và cả thư mục spam) để tìm email từ chúng tôi.
             </p>
             <div className="space-y-3">
-              <Link
-                to="/login"
+              <button
+                onClick={navigateToLogin}
                 className="block w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold text-center"
               >
                 Quay về đăng nhập
-              </Link>
+              </button>
               <button
                 onClick={() => setIsSubmitted(false)}
                 className="block w-full py-3 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-semibold"
@@ -98,9 +98,12 @@ const ForgotPassword: React.FC = () => {
         </form>
 
         <div className="text-center mt-6">
-          <Link to="/login" className="text-blue-600 hover:underline font-semibold">
+          <button
+            onClick={navigateToLogin}
+            className="text-blue-600 hover:underline font-semibold cursor-pointer"
+          >
             ← Quay về đăng nhập
-          </Link>
+          </button>
         </div>
       </div>
     </div>

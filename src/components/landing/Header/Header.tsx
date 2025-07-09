@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { navigateToLogin, navigateToRegister } from '../../../utils/navigation';
 
 interface HeaderProps {
   className?: string;
@@ -23,18 +24,18 @@ export const Header: React.FC<HeaderProps> = ({ className = '' }) => {
 
         {/* Nút đăng nhập/đăng ký */}
         <div className="flex items-center space-x-4">
-          <Link
-            to="/login"
+          <button
+            onClick={navigateToLogin}
             className="px-4 py-2 text-white font-semibold hover:text-cyan-200 transition-colors rounded-lg hover:bg-blue-800/40"
           >
             Đăng nhập
-          </Link>
-          <Link
-            to="/register"
+          </button>
+          <button
+            onClick={navigateToRegister}
             className="px-4 py-2 bg-white text-blue-700 font-bold rounded-lg shadow hover:bg-cyan-100 hover:text-blue-900 transition-colors border-2 border-white hover:border-cyan-400"
           >
             Đăng ký
-          </Link>
+          </button>
         </div>
       </div>
     </header>

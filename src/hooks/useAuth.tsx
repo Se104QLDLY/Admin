@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { getMe, login as apiLogin, logout as apiLogout } from '../api/auth.api';
 import type { User, LoginCredentials } from '../api/auth.api';
+import { navigateByRole } from '../utils/navigation';
 
 // Định nghĩa kiểu cho AuthContext
 interface AuthContextType {
@@ -37,18 +38,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = async (credentials: LoginCredentials) => {
-    // First, call login to set HttpOnly cookies
     await apiLogin(credentials);
-    // Then fetch the full current user profile
     const currentUser = await getMe();
     setUser(currentUser);
     setSession(prev => prev + 1);
+    // Điều hướng sau login theo role (so sánh role viết thường)
+    const role = (currentUser.account_role || '').toLowerCase();
+    if (role === 'admin') {
+      window.location.href = `${import.meta.env.VITE_ADMIN_APP_URL || 'http://localhost:5178'}/admin`;
+    } else {
+      navigateByRole(role);
+    }
   };
 
   const logout = async () => {
+    console.log('Admin app: User logging out');
     await apiLogout();
+    
+    // Clear tất cả cache khi logout
+    localStorage.clear();
+    sessionStorage.clear();
+    
     setUser(null);
     setSession(prev => prev + 1);
+    
+    // Redirect về admin site homepage sau khi logout (not login page)
+    const adminSiteUrl = import.meta.env.VITE_ADMIN_SITE_URL || 'http://localhost:5178';
+    window.location.href = adminSiteUrl;
   };
 
   const value = { user, isLoading, login, logout, session };

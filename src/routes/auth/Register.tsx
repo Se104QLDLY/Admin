@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
+import { navigateToLogin } from '../../utils/navigation';
 
 interface RegisterFormInputs {
   fullName: string;
@@ -132,9 +132,12 @@ const Register: React.FC = () => {
         </form>
 
         <div className="flex justify-center mt-6 text-sm">
-          <Link to="/login" className="text-cyan-600 hover:underline font-semibold">
+          <button
+            onClick={navigateToLogin}
+            className="text-cyan-600 hover:underline font-semibold cursor-pointer"
+          >
             Đã có tài khoản? Đăng nhập
-          </Link>
+          </button>
         </div>
       </div>
     </div>

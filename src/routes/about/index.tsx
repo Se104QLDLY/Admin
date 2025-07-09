@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Header } from '../../components/landing/Header';
 import { Footer } from '../../components/landing/Footer';
+import { navigateToLogin, navigateToRegister } from '../../utils/navigation';
 
 const About: React.FC = () => {
   return (
@@ -106,18 +106,18 @@ const About: React.FC = () => {
               Hãy để chúng tôi giúp bạn quản lý hệ thống đại lý một cách hiệu quả nhất.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/register"
+              <button
+                onClick={navigateToRegister}
                 className="inline-block px-8 py-3 bg-white text-blue-600 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-all font-semibold text-lg"
               >
                 Đăng ký ngay
-              </Link>
-              <Link
-                to="/login"
+              </button>
+              <button
+                onClick={navigateToLogin}
                 className="inline-block px-8 py-3 border-2 border-white text-white rounded-xl hover:bg-white hover:text-blue-600 transition-all font-semibold text-lg"
               >
                 Đăng nhập
-              </Link>
+              </button>
             </div>
           </div>
         </section>
