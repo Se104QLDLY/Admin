@@ -54,17 +54,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     console.log('Admin app: User logging out');
     await apiLogout();
-    
     // Clear tất cả cache khi logout
     localStorage.clear();
     sessionStorage.clear();
-    
     setUser(null);
     setSession(prev => prev + 1);
-    
-    // Redirect về admin site homepage sau khi logout (not login page)
-    const adminSiteUrl = import.meta.env.VITE_ADMIN_SITE_URL || 'http://localhost:5178';
-    window.location.href = adminSiteUrl;
+    // Redirect về login page sau khi logout
+    const loginPageUrl = (import.meta.env.VITE_LOGIN_PAGE_URL || 'http://localhost:5179') + '/login';
+    window.location.href = loginPageUrl;
   };
 
   const value = { user, isLoading, login, logout, session };
