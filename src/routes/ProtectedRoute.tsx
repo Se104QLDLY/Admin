@@ -7,16 +7,12 @@ export const ProtectedRoute = () => {
   const { user, isLoading } = useAuth();
 
   useEffect(() => {
-    if (isLoading) return; // Wait until loading is done
-
-    if (!user) {
-      // Redirect only if user is truly not logged in
+    // Chỉ redirect khi đã kiểm tra xong trạng thái đăng nhập
+    if (!isLoading && !user) {
       window.location.href = `${APP_URLS.LOGIN_PAGE}/login`;
       return;
     }
-
-    if (user.account_role !== 'admin') {
-      // Redirect wrong role to correct app
+    if (!isLoading && user && user.account_role !== 'admin') {
       switch (user.account_role) {
         case 'staff':
           window.location.href = APP_URLS.STAFF_APP;
