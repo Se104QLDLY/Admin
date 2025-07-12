@@ -9,11 +9,27 @@ export interface RegulationItem {
 
 export interface RegulationDetail extends RegulationItem {}
 
+export interface CreateRegulationPayload {
+  regulation_key: string;
+  regulation_value: string;
+  description?: string;
+}
+
 /**
  * Fetch all regulations.
  */
 export const getRegulations = async (): Promise<RegulationItem[]> => {
   const { data } = await axiosClient.get<RegulationItem[]>('/regulation/');
+  return data;
+};
+
+/**
+ * Create a new regulation.
+ */
+export const createRegulation = async (
+  payload: CreateRegulationPayload
+): Promise<RegulationDetail> => {
+  const { data } = await axiosClient.post<RegulationDetail>('/regulation/', payload);
   return data;
 };
 

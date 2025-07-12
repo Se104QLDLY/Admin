@@ -22,6 +22,7 @@ import AddAgencyPage from './agencies/add';
 import ViewAgencyPage from './agencies/view';
 import EditAgencyPage from './agencies/edit';
 import AgencyPage from './agencies/index';
+
 import AdminReportsPage from './reports';
 import { ProtectedRoute } from './ProtectedRoute';
 
@@ -29,7 +30,8 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<About />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/landing" element={<Home />} />
       <Route path="/about" element={<About />} />
       <Route path="/login" element={<LoginPage />} />

@@ -75,7 +75,7 @@ export const LoginPage = () => {
             break;
           case 'agent':
             console.log('Redirecting to agency dashboard');
-            window.location.href = 'http://localhost:5174/';
+                          window.location.href = 'http://localhost:5175/';
             break;
           default:
             navigate('/admin'); // Default fallback

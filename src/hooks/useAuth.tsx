@@ -10,6 +10,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (credentials: LoginCredentials) => Promise<void>;
   logout: () => Promise<void>;
+  checkUserSession: () => Promise<User | null>;
   session: number;
 }
 
@@ -22,20 +23,29 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useState(0);
 
-  // Kiểm tra session khi component được mount lần đầu
+  // Chỉ set loading false, không gọi getMe() ngay khi mount
   useEffect(() => {
-    const checkUserSession = async () => {
-      try {
-        const currentUser = await getMe();
-        setUser(currentUser);
-      } catch (error) {
-        setUser(null);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    checkUserSession();
+    // Chỉ set isLoading = false, không gọi API ngay
+    setIsLoading(false);
   }, []);
+
+  // Function để check session khi cần thiết (khi user truy cập protected route)
+  const checkUserSession = async () => {
+    if (user !== null) return user; // Đã có user rồi
+    
+    try {
+      setIsLoading(true);
+      const currentUser = await getMe();
+      setUser(currentUser);
+      return currentUser;
+    } catch (error) {
+      console.log('Admin app: No valid session found, user not authenticated');
+      setUser(null);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const login = async (credentials: LoginCredentials) => {
     await apiLogin(credentials);
@@ -64,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     window.location.href = loginPageUrl;
   };
 
-  const value = { user, isLoading, login, logout, session };
+  const value = { user, isLoading, login, logout, checkUserSession, session };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

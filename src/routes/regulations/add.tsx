@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import { DashboardLayout } from '../../components/layout/DashboardLayout/DashboardLayout';
+import { useToast } from '../../components/common/ToastContext';
 import { 
   ArrowLeft, 
   FilePlus2, 
@@ -11,6 +12,7 @@ import {
   Save, 
   AlertTriangle
 } from 'lucide-react';
+import { createRegulation } from '../../api/regulation.api';
 
 interface RegulationFormData {
   code: string;
@@ -67,6 +69,7 @@ const schema = yup.object({
 
 const AddRegulationPage: React.FC = () => {
   const navigate = useNavigate();
+  const { show: showToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -81,16 +84,28 @@ const AddRegulationPage: React.FC = () => {
 
   const onSubmit = async (data: RegulationFormData) => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log('Regulation data:', data);
+      // Tạo regulation key từ code
+      const regulationKey = data.code.toUpperCase();
+      
+      // Tạo regulation value từ title và content
+      const regulationValue = `${data.title} - ${data.content.substring(0, 100)}...`;
+      
+      // Tạo description từ các thông tin khác
+      const description = `Danh mục: ${data.category} | Ưu tiên: ${data.priority} | Trạng thái: ${data.status} | Hiệu lực: ${data.effectiveDate}${data.expiryDate ? ` | Hết hạn: ${data.expiryDate}` : ''}`;
+      
+      // Gọi API để tạo regulation
+      await createRegulation({
+        regulation_key: regulationKey,
+        regulation_value: regulationValue,
+        description: description
+      });
       
       // Show success message and redirect
-      alert('Quy định đã được thêm thành công!');
+      showToast('Quy định đã được thêm thành công!', 'success');
       navigate('/regulations');
     } catch (error) {
       console.error('Error adding regulation:', error);
-      alert('Có lỗi xảy ra khi thêm quy định!');
+      showToast('Có lỗi xảy ra khi thêm quy định!', 'error');
     }
   };
 

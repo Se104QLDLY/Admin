@@ -7,8 +7,8 @@ export const APP_URLS = {
   LOGIN_PAGE: import.meta.env.VITE_LOGIN_PAGE_URL || 'http://localhost:5179',
   ADMIN_APP: import.meta.env.VITE_ADMIN_APP_URL || 'http://localhost:5178',
   STAFF_APP: import.meta.env.VITE_STAFF_APP_URL || 'http://localhost:5176',
-  AGENCY_APP: import.meta.env.VITE_AGENCY_APP_URL || 'http://localhost:5174',
-  API_BASE: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
+      AGENCY_APP: import.meta.env.VITE_AGENCY_APP_URL || 'http://localhost:5175',
+  API_BASE: import.meta.env.VITE_API_BASE_URL || '/api/v1',
 };
 
 /**
